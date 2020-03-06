@@ -1,5 +1,6 @@
 package SPEC.PKG;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -9,15 +10,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.nio.channels.AlreadyBoundException;
 
 
 public class modificarActivity extends AppCompatActivity {
@@ -71,7 +73,7 @@ public class modificarActivity extends AppCompatActivity {
                 INSERTNOMBRE.setText("");
                 INSERTPRIMERA.setText("");
                 INSERTSEGUNDOA.setText("");
-                borrar();
+                alert2();
             }
         });
 
@@ -94,7 +96,7 @@ public class modificarActivity extends AppCompatActivity {
                 INSERTNOMBRE.setText("");
                 INSERTPRIMERA.setText("");
                 INSERTSEGUNDOA.setText("");
-                agregar();
+                alert();
             }
         });
     }
@@ -120,7 +122,7 @@ public class modificarActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "NO SE AGREGO ENFERMERA"+ url1, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "NO SE AGREGO ENFERMERA, ERROR WEBSERVICE"+ url1, Toast.LENGTH_LONG).show();
             }
         }) {
         };
@@ -139,10 +141,46 @@ public class modificarActivity extends AppCompatActivity {
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "NO SE BORRO ENFERMERA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "NO SE BORRO ENFERMERA-ERROR EN WEBSERVICE", Toast.LENGTH_SHORT).show();
             }
         }) {
         };
         MyRequestQueue.add(MyStringRequest);
+    }
+    public void alert() {
+        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
+        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
+        alertmodificarenfermeras.setMessage("DESEA CONTINUAR CON LA MODIFICACION?");
+        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                agregar();
+            }
+        });
+        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertmodificarenfermeras.show();
+    }
+    public void alert2(){
+        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
+        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
+        alertmodificarenfermeras.setMessage("DESEA CONTINUAR CON LA MODIFICACION?");
+        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                borrar();
+            }
+        });
+        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertmodificarenfermeras.show();
     }
 }
