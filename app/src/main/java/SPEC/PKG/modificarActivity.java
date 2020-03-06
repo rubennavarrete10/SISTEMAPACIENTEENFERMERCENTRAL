@@ -19,9 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.nio.channels.AlreadyBoundException;
-
-
 public class modificarActivity extends AppCompatActivity {
 
     String NOMBRE,PRIMERA,SEGUNDOA,TURNOS, url1;
@@ -29,7 +26,6 @@ public class modificarActivity extends AppCompatActivity {
     Button REGRESAR, AGREGAR,BORRAR;
     RadioButton MANANA,TARDE,NOCHE;
     EditText INSERTNOMBRE,INSERTPRIMERA,INSERTSEGUNDOA;
-    TextView error;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +42,6 @@ public class modificarActivity extends AppCompatActivity {
         INSERTNOMBRE = (EditText) findViewById(R.id.NOMBRE);
         INSERTPRIMERA = (EditText) findViewById(R.id.PRIMERA);
         INSERTSEGUNDOA = (EditText) findViewById(R.id.SEGUNDOA);
-        error = (TextView) findViewById(R.id.errorturno) ;
 
         REGRESAR.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -92,7 +87,6 @@ public class modificarActivity extends AppCompatActivity {
                 PRIMERA = INSERTPRIMERA.getText().toString();
                 SEGUNDOA = INSERTSEGUNDOA.getText().toString();
                 TURNOS=String.valueOf(TURNO);
-                error.setText(TURNOS);
                 INSERTNOMBRE.setText("");
                 INSERTPRIMERA.setText("");
                 INSERTSEGUNDOA.setText("");
@@ -100,7 +94,6 @@ public class modificarActivity extends AppCompatActivity {
             }
         });
     }
-
     public void agregar() {
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
         if (TURNO == 1) {
