@@ -6,40 +6,20 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_orange_dark"
     android:orientation="horizontal"
-    tools:context=".modificarActivity"><![CDATA[>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ]]>
+    tools:context=".modificarActivity">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/BORRAR"
         android:layout_width="155dp"
         android:layout_height="55dp"
         android:layout_marginBottom="20dp"
         android:text="BORRAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/REGRESAR"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/AGREGAR" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/AGREGAR"
         android:layout_width="155dp"
         android:layout_height="55dp"
         android:layout_marginBottom="20dp"
@@ -72,72 +52,75 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/SEGUNDOA"
         android:layout_width="220dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="APEIDO MATERNO"
+        android:hint="APEIDO MATERNO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.229" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/NOMBRE"
         android:layout_width="220dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="NOMBRE"
+        android:hint="NOMBRE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.229" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/PRIMERA"
         android:layout_width="220dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="APEIDO PATERNO"
+        android:hint="APEIDO PATERNO"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
+        app:layout_constraintEnd_toStartOf="@+id/SEGUNDOA"
         app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toEndOf="@+id/editText"
+        app:layout_constraintStart_toEndOf="@+id/NOMBRE"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.229" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="12dp"
-        android:text="TURNO MANANA"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-    <RadioButton
-        android:id="@+id/radioButton2"
+    <RadioGroup
         android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="24dp"
-        android:text="TURNO TARDE"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535">
 
-    <RadioButton
-        android:id="@+id/radioButton3"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="24dp"
-        android:text="TURNO NOCHE"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+        <RadioButton
+            android:id="@+id/TURNOMANANA"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="1dp"
+            android:text="TURNO MANANA" />
+
+        <RadioButton
+            android:id="@+id/TURNOTARDE"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="1dp"
+            android:text="TURNO TARDE" />
+
+        <RadioButton
+            android:id="@+id/TURNONOCHE"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="1dp"
+            android:text="TURNO NOCHE" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/textView6"
@@ -163,4 +146,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="172dp" />
+
+    <TextView
+        android:id="@+id/errorturno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="384dp"
+        android:text="N/A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
