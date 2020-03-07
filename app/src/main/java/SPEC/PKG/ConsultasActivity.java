@@ -1,7 +1,5 @@
 package SPEC.PKG;
 
-import java.text.SimpleDateFormat;
-
 public class ConsultasActivity {
 
     private String FOLIODISPOSITIVO;

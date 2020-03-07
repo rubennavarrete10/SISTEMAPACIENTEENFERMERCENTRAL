@@ -1,9 +1,11 @@
 package SPEC.PKG;
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,26 +36,22 @@ import org.json.JSONObject;
 
 public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
-    String url1,SELENFERMERA,SELPACIENTE;
-    int arreglo1=3;
-    String arreglo2="1";
-    private TextView CHECARDATOS,PACIENTEASISTIR,ENFEASISTIR,titulo;
-    private ListView LISTAEVENTOS,LISTAENFERMERAS;
+    String url1, arraylugar, SELENFERMERA, SELPACIENTE, horafinal, turno, turnoON, fechafinal;
+    String FECHA, HORA, TURNO, HABITACION, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
+    int arreglo1 = 1;
+    int arrayLugar = 1;
+    private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
+    private ListView LISTAEVENTOS, LISTAENFERMERAS;
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    Date horaD;
-    Date date;
-    String horafinal;
-    String turno,turnoON;
-    String fechafinal;
-
+    Date horaD, date;
+    Timer tiempo = new Timer();
     String[] array = {};
     ArrayList<String> EVENTOSDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
-    ArrayAdapter<String> adapterConsulta1,adapterConsulta2;
+    ArrayAdapter<String> adapterConsulta1, adapterConsulta2;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     JsonObjectRequest jsonrequest;////////////////////////////////////////////////////////////json webservices/////////////////
-    String FECHA,HORA,TURNO,HABITACION,FOLIODISPOSITIVO,EVENTOGEN,idENFERMERA,NOMBRE,PRIMERAPEIDO,SEGUNDOAPEIDO,ENFERMEGEN;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -59,41 +60,39 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);////////////////marcaba error solo por dar gusto al usuario en la orientacion no problem
         setContentView(R.layout.activity_main);
 
-        Button actualizar=(Button)findViewById(R.id.button);
+        Button actualizar = (Button) findViewById(R.id.button);
         Button MODENFERMERAS = (Button) findViewById(R.id.MODENFERMERAS);
-        Button ASISTIR = (Button)findViewById(R.id.ASISTIRPACIENTE);
-        request1=Volley.newRequestQueue(getApplicationContext());////////////////////////////////////////////////////////////json webservices/////////////////
-        CHECARDATOS=(TextView)findViewById(R.id.textView);
-        PACIENTEASISTIR=(TextView)findViewById(R.id.pacieAsisir);
-        ENFEASISTIR = (TextView)findViewById(R.id.enfeAsistir);
-        LISTAEVENTOS =(ListView)findViewById(R.id.eventosList);
-        LISTAENFERMERAS=(ListView)findViewById(R.id.enfermerasList);
-        titulo=(TextView)findViewById(R.id.textView);
+        Button ASISTIR = (Button) findViewById(R.id.ASISTIRPACIENTE);
+        request1 = Volley.newRequestQueue(this);
+        PACIENTEASISTIR = (TextView) findViewById(R.id.pacieAsisir);
+        ENFEASISTIR = (TextView) findViewById(R.id.enfeAsistir);
+        LISTAEVENTOS = (ListView) findViewById(R.id.eventosList);
+        LISTAENFERMERAS = (ListView) findViewById(R.id.enfermerasList);
+        titulo = (TextView) findViewById(R.id.textView);
+        CUADRITO = (TextView) findViewById(R.id.textView2);
+        tituloupdate = (TextView) findViewById(R.id.textView3);
 
+        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS);
+        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS);
 
-        adapterConsulta1 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, EVENTOSDATOS);
-        adapterConsulta2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, ENFERMERASDATOS);
-
+///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
         date = new Date();
         fechafinal = dateFormat.format(date);
         turno();
         consulEvento();
+
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnoON="CONSULTAEVENTO";
+                turnoON = "CONSULTAEVENTO";
                 consulEvento();
-                ENFEASISTIR.setText(arreglo1+" "+url1);
             }
         });
         ASISTIR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnoON="UPDATEENFERMERA";
-                arreglo2=FOLIODISPOSITIVO;
+                turnoON = "UPDATEENFERMERA";
                 consulEvento();
-                ENFEASISTIR.setText(arreglo1+" "+url1);
-
             }
         });
         MODENFERMERAS.setOnClickListener(new View.OnClickListener() {
@@ -105,12 +104,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         });
     }
 
-
-
-    public void alert2(){
+    ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
+    public void alert2() {
         AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
         alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
-        alertmodificarenfermeras.setMessage("DESEA CONTINUAR CON LA MODIFICACION?");
+        alertmodificarenfermeras.setMessage(FOLIODISPOSITIVO);
         alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -125,6 +123,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         });
         alertmodificarenfermeras.show();
     }
+
     public boolean turno() {
         turnoON = "CONSULTAENFERMERA";
         try {
@@ -158,125 +157,140 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         }
         return false;
     }
+
+
     public void consulEvento() {
         if (turnoON == "CONSULTAENFERMERA") {
 
             if (turno == "MANANA") {
-                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASMANANA.php?evento=1&idENFERMERA=1";
+                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASMANANA.php";
             }
             if (turno == "TARDE") {
-                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASTARDE.php?evento=1&idENFERMERA=1";
+                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASTARDE.php?";
             }
             if (turno == "NOCHE") {
-                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASNOCHE.php?evento=1&idENFERMERA=1";
+                url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASNOCHE.php?";
             }
 
-            }
+        }
         if (turnoON == "CONSULTAEVENTO") {
-            if (arreglo1%2==0){
-                url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTO.php?evento=1+&FOLIODISPOSITIVO=" + arreglo1;
+            if (arreglo1 % 2 == 0) {
+                url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTO.php";
             }
-            if (arreglo1%2==1){
-                url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTOE.php?evento=1+&FOLIODISPOSITIVO=" + arreglo1;
+            if (arreglo1 % 2 == 1) {
+                url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTOE.php";
             }
             arreglo1 = arreglo1 + 1;
-            }
+        }
         if (turnoON == "UPDATEENFERMERA") {
-            url1= "http://192.168.0.15/BDSEP/UPDATEENFERMERASE.php";
-            if (arreglo1%2==0){
-                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIODISPOSITIVO="+FOLIODISPOSITIVO+"&FECHA="+FECHA+"&HORA="+HORA+"&HABITACION="+HABITACION+"&ENFERMERA="+ENFERMEGEN;
+            if (arreglo1 % 2 == 0) {
+                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERASE.php?FOLIODISPOSITIVO=" + FOLENFE + "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA="+ SELENFERMERA;
             }
-            if (arreglo1%2==1){
-                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERASE.php?FOLIODISPOSITIVO="+FOLIODISPOSITIVO+"&FECHA="+FECHA+"&HORA="+HORA+"&HABITACION="+HABITACION+"&ENFERMERA="+ENFERMEGEN;
+            if (arreglo1 % 2 == 1) {
+                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIODISPOSITIVO=" + FOLENFE + "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
             }
-            //url1= "http://192.168.0.15/BDSEP/UPDATEENFERMERASE.php?FOLIODISPOSITIVO=3&FECHA=06/03/2020&HORA=10:34:19&HABITACION=101&ENFERMERA=HOLA";
             url1 = url1.replace(" ", "%20");
-            }
-
+            titulo.setText(url1);
+        }
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
     }
+
     @Override
     public void onResponse(JSONObject response) {
-        ConsultasActivity consultaUsuario = new ConsultasActivity();
-        JSONArray consulta=response.optJSONArray("usuario");
-        JSONObject jsonconsulta;
+        JSONArray consulta = response.optJSONArray("usuario");
+        Usuarios consultaUsuario;
 
         if (turnoON == "CONSULTAEVENTO") {
-                    turnoON="x";
-                    try {
-                        jsonconsulta = consulta.getJSONObject(0);
-                        consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIODISPOSITIVO"));
-                        consultaUsuario.setFECHA(jsonconsulta.optString("FECHA"));
-                        consultaUsuario.setHORA(jsonconsulta.optString("HORA"));
-                        consultaUsuario.setTURNO(jsonconsulta.optString("TURNO"));
-                        consultaUsuario.setHABITACION(jsonconsulta.optString("HABITACION"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            turnoON = "x";
+            try {
+                int i = 0;
+                for (i = 0; i < consulta.length(); i++) {
+                    consultaUsuario = new Usuarios();
+                    JSONObject jsonconsulta = null;
+                    jsonconsulta = consulta.getJSONObject(i);
+                    consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIODISPOSITIVO"));
+                    consultaUsuario.setFECHA(jsonconsulta.optString("FECHA"));
+                    consultaUsuario.setHORA(jsonconsulta.optString("HORA"));
+                    consultaUsuario.setTURNO(jsonconsulta.optString("TURNO"));
+                    consultaUsuario.setHABITACION(jsonconsulta.optString("HABITACION"));
+                    consultaUsuario.setTR(jsonconsulta.optString("TIEMPORESPUESTA"));
                     FOLIODISPOSITIVO = consultaUsuario.getFOLIODISPOSITIVO();
                     FECHA = consultaUsuario.getFECHA();
                     HORA = consultaUsuario.getHORA();
                     TURNO = consultaUsuario.getTURNO();
                     HABITACION = consultaUsuario.getHABITACION();
-                    EVENTOGEN = "FOLIODISPOSITIVO: " + FOLIODISPOSITIVO + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION;
+                    TR=consultaUsuario.getTR();
+                    EVENTOGEN = "FOLIODISPOSITIVO="+FOLIODISPOSITIVO + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION;
 
+                    if(TR.compareTo("SIN RESPUESTA") == 0) {
                         EVENTOSDATOS.add(EVENTOGEN);
-                        
-                        LISTAEVENTOS.setAdapter(adapterConsulta1);
-                        LISTAEVENTOS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                            PACIENTEASISTIR.setText("" + LISTAEVENTOS.getItemAtPosition(i));
-                            SELPACIENTE=EVENTOGEN;
-                            EVENTOGEN="FOLIODISPOSITIVO="+FOLIODISPOSITIVO+"&FECHA="+FECHA+"&HORA="+HORA+"&HABITACION="+HABITACION+"&ENFERMERA="+SELENFERMERA;
-                        }
-                    });
-                    Toast.makeText(getApplicationContext(), "CONSULTA EVENTOS LISTA", Toast.LENGTH_SHORT).show();
+                        FOLENFE=FOLIODISPOSITIVO;
                     }
-        if (turnoON == "CONSULTAENFERMERA"){
-                    turnoON="x";
-                    try {
-                        jsonconsulta = consulta.getJSONObject(0);
-                        consultaUsuario.setIdENFERMERA(jsonconsulta.optString("idENFERMERA"));
-                        consultaUsuario.setNOMBRE(jsonconsulta.optString("NOMBRE"));
-                        consultaUsuario.setPRIMERAPEIDO(jsonconsulta.optString("PRIMERAPEIDO"));
-                        consultaUsuario.setSEGUNDOAPEIDO(jsonconsulta.optString("SEGUNDOAPEIDO"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            tituloupdate.setText(String.valueOf(arrayLugar));
+            LISTAEVENTOS.setAdapter(adapterConsulta1);
+            LISTAEVENTOS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                    PACIENTEASISTIR.setText(""+ LISTAEVENTOS.getItemAtPosition(i));
+                }
+            });
+            Toast.makeText(getApplicationContext(), "CONSULTA EVENTOS LISTA", Toast.LENGTH_SHORT).show();
+        }
+        if (turnoON == "CONSULTAENFERMERA") {
+                turnoON = "x";
+            try {
+                int i = 0;
+                for (i = 0; i < consulta.length(); i++) {
+                    consultaUsuario = new Usuarios();
+                    JSONObject jsonconsulta = null;
+                    jsonconsulta = consulta.getJSONObject(i);
+                    consultaUsuario.setIdENFERMERA(jsonconsulta.optString("idENFERMERA"));
+                    consultaUsuario.setNOMBRE(jsonconsulta.optString("NOMBRE"));
+                    consultaUsuario.setPRIMERAPEIDO(jsonconsulta.optString("PRIMERAPEIDO"));
+                    consultaUsuario.setSEGUNDOAPEIDO(jsonconsulta.optString("SEGUNDOAPEIDO"));
                     idENFERMERA = consultaUsuario.getIdENFERMERA();
                     NOMBRE= consultaUsuario.getNOMBRE();
                     PRIMERAPEIDO = consultaUsuario.getPRIMERAPEIDO();
                     SEGUNDOAPEIDO=consultaUsuario.getSEGUNDOAPEIDO();
                     ENFERMEGEN=NOMBRE+" "+PRIMERAPEIDO+" "+SEGUNDOAPEIDO;
                     ENFERMERASDATOS.add(ENFERMEGEN);
-                    LISTAENFERMERAS.setAdapter(adapterConsulta2);
-                    LISTAENFERMERAS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                }
+            } catch (JSONException e) {
+                    e.printStackTrace();
+            }
+            LISTAENFERMERAS.setAdapter(adapterConsulta2);
+            LISTAENFERMERAS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView adapterView, View view, int i, long l) {
                             ENFEASISTIR.setText(""+ LISTAENFERMERAS.getItemAtPosition(i));
                             SELENFERMERA=ENFERMEGEN;
                         }
                     });
-                    Toast.makeText(getApplicationContext(), "CONSULTA ENFERMERAS LISTA", Toast.LENGTH_SHORT).show();
-                    }
-        if(turnoON=="UPDATEENFERMERA"){
-                    turnoON="x";
-                    Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_LONG).show();
-                    }
-    }
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        if (turnoON == "CONSULTAEVENTO") {
-            Toast.makeText(getApplicationContext(), "ERROR CONSULTA EVENTO"+error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "CONSULTA ENFERMERAS LISTA", Toast.LENGTH_SHORT).show();
         }
-        if(turnoON=="UPDATEENFERMERA"){
-            Toast.makeText(getApplicationContext(), "NO SE ACTUALIZO ENFERMERA", Toast.LENGTH_SHORT).show();
+        if (turnoON == "UPDATEENFERMERA") {
+            turnoON = "x";
+            Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_LONG).show();
         }
-        if (turnoON == "CONSULTAENFERMERA") {
-            Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS"+error, Toast.LENGTH_SHORT).show();
         }
 
-    }
+
+        @Override
+        public void onErrorResponse (VolleyError error){
+            if (turnoON == "CONSULTAEVENTO") {
+                Toast.makeText(getApplicationContext(), "ERROR CONSULTA EVENTO" + error, Toast.LENGTH_SHORT).show();
+            }
+            if (turnoON == "UPDATEENFERMERA") {
+                Toast.makeText(getApplicationContext(), "NO SE ACTUALIZO ENFERMERA", Toast.LENGTH_SHORT).show();
+            }
+            if (turnoON == "CONSULTAENFERMERA") {
+                Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS" + error, Toast.LENGTH_SHORT).show();
+            }
+            }
 }
+
