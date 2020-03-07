@@ -37,9 +37,8 @@ import org.json.JSONObject;
 public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     String url1, arraylugar, SELENFERMERA, SELPACIENTE, horafinal, turno, turnoON, fechafinal;
-    String FECHA, HORA, TURNO, HABITACION, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
+    String FECHA, HORA, TURNO, HABITACION,TIPODELLAMADO, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
     int arreglo1 = 1;
-    int arrayLugar = 1;
     private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
     private ListView LISTAEVENTOS, LISTAENFERMERAS;
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
@@ -80,6 +79,34 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         fechafinal = dateFormat.format(date);
         turno();
         consulEvento();
+
+        LISTAEVENTOS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                PACIENTEASISTIR.setText(""+ LISTAEVENTOS.getItemAtPosition(i));
+                FOLENFE = PACIENTEASISTIR.getText().toString();
+                FOLENFE = FOLENFE.toString().substring(105);
+                TIPODELLAMADO = PACIENTEASISTIR.getText().toString();
+                TIPODELLAMADO = TIPODELLAMADO.toString().substring(0,26);
+                TIPODELLAMADO = TIPODELLAMADO.toString().substring(15);
+                FECHA= PACIENTEASISTIR.getText().toString();
+                FECHA= FECHA.toString().substring(0,43);
+                FECHA= FECHA.toString().substring(33);
+                HORA= PACIENTEASISTIR.getText().toString();
+                HORA= HORA.toString().substring(0,58);
+                HORA= HORA.toString().substring(50);
+                HABITACION= PACIENTEASISTIR.getText().toString();
+                HABITACION= HABITACION.toString().substring(0,87);
+                HABITACION= HABITACION.toString().substring(84);
+            }
+        });
+        LISTAENFERMERAS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                ENFEASISTIR.setText(""+ LISTAENFERMERAS.getItemAtPosition(i));
+                SELENFERMERA = ENFEASISTIR.getText().toString();
+            }
+        });
 
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,28 +201,16 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
 
         }
         if (turnoON == "CONSULTAEVENTO") {
-            if (arreglo1 % 2 == 0) {
                 url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTO.php";
-            }
-            if (arreglo1 % 2 == 1) {
-                url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTOE.php";
-            }
-            arreglo1 = arreglo1 + 1;
+                arreglo1 = arreglo1 + 1;
         }
         if (turnoON == "UPDATEENFERMERA") {
-            if (arreglo1 % 2 == 0) {
-                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERASE.php?FOLIODISPOSITIVO=" + FOLENFE + "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA="+ SELENFERMERA;
-            }
-            if (arreglo1 % 2 == 1) {
-                url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIODISPOSITIVO=" + FOLENFE + "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
-            }
+            url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIOGENERAL=" + FOLENFE +"&TIPODELLAMADO="+TIPODELLAMADO+ "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
             url1 = url1.replace(" ", "%20");
-            titulo.setText(url1);
         }
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
     }
-
     @Override
     public void onResponse(JSONObject response) {
         JSONArray consulta = response.optJSONArray("usuario");
@@ -209,8 +224,9 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     consultaUsuario = new Usuarios();
                     JSONObject jsonconsulta = null;
                     jsonconsulta = consulta.getJSONObject(i);
-                    consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIODISPOSITIVO"));
+                    consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIOGENERAL"));
                     consultaUsuario.setFECHA(jsonconsulta.optString("FECHA"));
+                    consultaUsuario.setTIPODELLAMDO(jsonconsulta.optString("TIPODELLAMADO"));
                     consultaUsuario.setHORA(jsonconsulta.optString("HORA"));
                     consultaUsuario.setTURNO(jsonconsulta.optString("TURNO"));
                     consultaUsuario.setHABITACION(jsonconsulta.optString("HABITACION"));
@@ -220,25 +236,17 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     HORA = consultaUsuario.getHORA();
                     TURNO = consultaUsuario.getTURNO();
                     HABITACION = consultaUsuario.getHABITACION();
+                    TIPODELLAMADO=consultaUsuario.getTIPODELLAMDO();
                     TR=consultaUsuario.getTR();
-                    EVENTOGEN = "FOLIODISPOSITIVO="+FOLIODISPOSITIVO + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION;
-
+                    EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO;
                     if(TR.compareTo("SIN RESPUESTA") == 0) {
                         EVENTOSDATOS.add(EVENTOGEN);
-                        FOLENFE=FOLIODISPOSITIVO;
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            tituloupdate.setText(String.valueOf(arrayLugar));
             LISTAEVENTOS.setAdapter(adapterConsulta1);
-            LISTAEVENTOS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                    PACIENTEASISTIR.setText(""+ LISTAEVENTOS.getItemAtPosition(i));
-                }
-            });
             Toast.makeText(getApplicationContext(), "CONSULTA EVENTOS LISTA", Toast.LENGTH_SHORT).show();
         }
         if (turnoON == "CONSULTAENFERMERA") {
@@ -264,24 +272,17 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     e.printStackTrace();
             }
             LISTAENFERMERAS.setAdapter(adapterConsulta2);
-            LISTAENFERMERAS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                            ENFEASISTIR.setText(""+ LISTAENFERMERAS.getItemAtPosition(i));
-                            SELENFERMERA=ENFERMEGEN;
-                        }
-                    });
             Toast.makeText(getApplicationContext(), "CONSULTA ENFERMERAS LISTA", Toast.LENGTH_SHORT).show();
         }
         if (turnoON == "UPDATEENFERMERA") {
             turnoON = "x";
+            PACIENTEASISTIR.setText("");
+            ENFEASISTIR.setText("");
             Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_LONG).show();
         }
-        }
-
-
-        @Override
-        public void onErrorResponse (VolleyError error){
+    }
+    @Override
+    public void onErrorResponse (VolleyError error){
             if (turnoON == "CONSULTAEVENTO") {
                 Toast.makeText(getApplicationContext(), "ERROR CONSULTA EVENTO" + error, Toast.LENGTH_SHORT).show();
             }

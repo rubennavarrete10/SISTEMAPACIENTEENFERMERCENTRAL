@@ -2,7 +2,7 @@ package SPEC.PKG;
 
  public class Usuarios {
 
-        private String nombre;
+        private String TIPODELLAMDO;
         private String FOLIODISPOSITIVO;
         private String FECHA;
         private String HORA;
@@ -34,4 +34,7 @@ package SPEC.PKG;
     public void setSEGUNDOAPEIDO(String SEGUNDOAPEIDO) { this.SEGUNDOAPEIDO=SEGUNDOAPEIDO; }
      public void setTR(String TR) { this.TR=TR; }
      public String getTR() { return TR; }
+     public String getTIPODELLAMDO() { return TIPODELLAMDO; }
+     public void setTIPODELLAMDO(String TIPODELLAMDO) { this.TIPODELLAMDO=TIPODELLAMDO; }
+
 }
