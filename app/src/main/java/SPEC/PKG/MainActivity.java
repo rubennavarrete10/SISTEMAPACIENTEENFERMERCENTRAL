@@ -183,7 +183,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 return view;
             }*/
         };
-        adapterConsulta2 = new ArrayAdapter<String>(this, R.layout.a, ENFERMERASDATOS);
+        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS);
         adapterConsulta3 = new ArrayAdapter<String>(this, R.layout.simple_list_adapter_2, EVENTOSDATOS);
     }
     public void turno() {
