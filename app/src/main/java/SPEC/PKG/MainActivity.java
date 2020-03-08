@@ -4,9 +4,12 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import java.text.ParseException;
@@ -36,9 +39,11 @@ import org.json.JSONObject;
 
 public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
-    String url1, arraylugar, SELENFERMERA, SELPACIENTE, horafinal, turno, turnoON, fechafinal;
+    String url1, SELENFERMERA, REPHABITACION, horafinal, turno, turnoON, fechafinal;
     String FECHA, HORA, TURNO, HABITACION,TIPODELLAMADO, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
     int arreglo1 = 1;
+    int rep;
+    int delete=0;
     private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
     private ListView LISTAEVENTOS, LISTAENFERMERAS;
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
@@ -48,7 +53,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     String[] array = {};
     ArrayList<String> EVENTOSDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
-    ArrayAdapter<String> adapterConsulta1, adapterConsulta2;
+    ArrayAdapter<String> adapterConsulta1, adapterConsulta2,adapterConsulta3;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     JsonObjectRequest jsonrequest;////////////////////////////////////////////////////////////json webservices/////////////////
 
@@ -71,8 +76,27 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         CUADRITO = (TextView) findViewById(R.id.textView2);
         tituloupdate = (TextView) findViewById(R.id.textView3);
 
-        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS);
-        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS);
+
+        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS){
+            @Override public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View view =super.getView(position, convertView, parent);
+            TextView textView=(TextView) view.findViewById(android.R.id.text1);
+            textView.setTextSize(10);
+            textView.setTextColor(Color.BLACK);
+            return view;
+            }
+        };
+        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS){
+            @Override public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View view =super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                textView.setTextSize(10);
+                textView.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
 
 ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
         date = new Date();
@@ -98,6 +122,9 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 HABITACION= PACIENTEASISTIR.getText().toString();
                 HABITACION= HABITACION.toString().substring(0,87);
                 HABITACION= HABITACION.toString().substring(84);
+                delete=i;
+               /* EVENTOSDATOS.remove(i);
+                adapterConsulta1.notifyDataSetChanged();*/
             }
         });
         LISTAENFERMERAS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,16 +135,25 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             }
         });
 
+
+
+
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 turnoON = "CONSULTAEVENTO";
+                REPHABITACION="NADA";
+                adapterConsulta1.clear();
+                adapterConsulta1.notifyDataSetChanged();
                 consulEvento();
             }
         });
         ASISTIR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EVENTOSDATOS.remove(PACIENTEASISTIR);
+                EVENTOSDATOS.remove(delete);
+                adapterConsulta1.notifyDataSetChanged();
                 turnoON = "UPDATEENFERMERA";
                 consulEvento();
             }
@@ -149,6 +185,32 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             }
         });
         alertmodificarenfermeras.show();
+    }
+    public void alertNOEVENTOS() {
+        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
+        noeventos.setTitle("NO AHI NUEVOS EVENTOS");
+        noeventos.setMessage("Actualmente no tiene eventos de paciente");
+        final AlertDialog noeventosB = noeventos.create();
+        noeventosB.setCanceledOnTouchOutside(true);
+        noeventosB.show();
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (noeventosB.isShowing()) {
+                    noeventosB.dismiss();
+                }
+            }
+        };
+
+        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        handler.postDelayed(runnable, 3000);
     }
 
     public boolean turno() {
@@ -207,6 +269,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         if (turnoON == "UPDATEENFERMERA") {
             url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIOGENERAL=" + FOLENFE +"&TIPODELLAMADO="+TIPODELLAMADO+ "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
             url1 = url1.replace(" ", "%20");
+            titulo.setText(url1);
         }
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
@@ -219,7 +282,9 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         if (turnoON == "CONSULTAEVENTO") {
             turnoON = "x";
             try {
-                int i = 0;
+                int i,a;
+                a=0;
+                rep=0;
                 for (i = 0; i < consulta.length(); i++) {
                     consultaUsuario = new Usuarios();
                     JSONObject jsonconsulta = null;
@@ -239,14 +304,40 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     TIPODELLAMADO=consultaUsuario.getTIPODELLAMDO();
                     TR=consultaUsuario.getTR();
                     EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO;
+                    LISTAEVENTOS.setAdapter(adapterConsulta1);
                     if(TR.compareTo("SIN RESPUESTA") == 0) {
-                        EVENTOSDATOS.add(EVENTOGEN);
+
+                            if(rep==0){
+                                EVENTOSDATOS.add(EVENTOGEN);
+                                rep=1;
+                            }
+                            if(HABITACION.compareTo(REPHABITACION) == 0) {
+
+                                EVENTOSDATOS.remove(a);
+                                EVENTOSDATOS.add(EVENTOGEN);
+                            }
+                            if(HABITACION.compareTo(REPHABITACION) == 1) {
+                                EVENTOSDATOS.add(EVENTOGEN);
+                                a++;
+                            }
+                            if(HABITACION.compareTo(REPHABITACION) == -1) {
+                                EVENTOSDATOS.add(EVENTOGEN);
+                                a++;
+                            }
+
+
+                            REPHABITACION = HABITACION;
                     }
+                    /*if(EVENTOSDATOS == null || EVENTOSDATOS.size() == 0)
+                    {
+                        // el arraylist no tiene valor
+                        alertNOEVENTOS();
+                    }*/
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            LISTAEVENTOS.setAdapter(adapterConsulta1);
             Toast.makeText(getApplicationContext(), "CONSULTA EVENTOS LISTA", Toast.LENGTH_SHORT).show();
         }
         if (turnoON == "CONSULTAENFERMERA") {
@@ -293,5 +384,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS" + error, Toast.LENGTH_SHORT).show();
             }
             }
+
 }
 
