@@ -26,6 +26,7 @@ public class modificarActivity extends AppCompatActivity {
     Button REGRESAR, AGREGAR,BORRAR;
     RadioButton MANANA,TARDE,NOCHE;
     EditText INSERTNOMBRE,INSERTPRIMERA,INSERTSEGUNDOA;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

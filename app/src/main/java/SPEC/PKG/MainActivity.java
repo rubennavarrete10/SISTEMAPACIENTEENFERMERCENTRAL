@@ -1,17 +1,25 @@
 package SPEC.PKG;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,16 +51,15 @@ import org.json.JSONObject;
 public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     String url1, SELENFERMERA, REPHABITACION, horafinal, turno, turnoON, fechafinal;
-    String FECHA, HORA, TURNO, HABITACION,TIPODELLAMADO, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
+    String FECHA, HORA, TURNO, HABITACION,TIPODELLAMADO, FOLIODISPOSITIVO,TR="NADA", EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
     int arreglo1 = 1;
-    int i,a,rep;
+    int i,a;
     int delete=0;
     private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
     private ListView LISTAEVENTOS, LISTAENFERMERAS;
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date horaD, date;
-    Timer tiempo = new Timer();
     String[] array = {};
     ArrayList<String> EVENTOSDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
@@ -58,6 +68,8 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     Usuarios consultaUsuario;
     JSONArray consulta;
     JsonObjectRequest jsonrequest;////////////////////////////////////////////////////////////json webservices/////////////////
+    private MediaPlayer player;
+    private String outputFile =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/Fonts/" + FOLIODISPOSITIVO + "Grabacion.mp3";
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -65,6 +77,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);////////////////marcaba error solo por dar gusto al usuario en la orientacion no problem
         setContentView(R.layout.activity_main);
+        tarjetaSd();
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
+        }
 
         Button actualizar = (Button) findViewById(R.id.button);
         Button MODENFERMERAS = (Button) findViewById(R.id.MODENFERMERAS);
@@ -82,7 +99,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             public void onItemClick(AdapterView adapterView, View view, int i, long l) {
                 PACIENTEASISTIR.setText(""+ LISTAEVENTOS.getItemAtPosition(i));
                 FOLENFE = PACIENTEASISTIR.getText().toString();
-                FOLENFE = FOLENFE.toString().substring(105);
+                FOLENFE = FOLENFE.toString().substring(106);
                 TIPODELLAMADO = PACIENTEASISTIR.getText().toString();
                 TIPODELLAMADO = TIPODELLAMADO.toString().substring(0,26);
                 TIPODELLAMADO = TIPODELLAMADO.toString().substring(15);
@@ -114,6 +131,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 REPHABITACION="NADA";
                 adapterConsulta1.clear();
                 adapterConsulta1.notifyDataSetChanged();
+                arreglo1=1;
                 consulEvento();
             }
         });
@@ -135,6 +153,15 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         });
     }
     ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
+    public boolean tarjetaSd() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            Toast.makeText(getApplicationContext(), "SD LISTO", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        alertaSD();
+        return false;
+    }
     private void referenciasobjetos() {
         request1 = Volley.newRequestQueue(this);
         PACIENTEASISTIR = (TextView) findViewById(R.id.pacieAsisir);
@@ -144,25 +171,20 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         titulo = (TextView) findViewById(R.id.textView);
         CUADRITO = (TextView) findViewById(R.id.textView2);
         tituloupdate = (TextView) findViewById(R.id.textView3);
-        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS){
-            @Override public View getView(int position, View convertView, ViewGroup parent)
+        adapterConsulta1 = new ArrayAdapter<String>(this, R.layout.simple_list_adapter, EVENTOSDATOS){
+           /*
+           //Con este cambias como se ve el listview en codigo cuando usas simple_list_item_1
+           @Override public View getView(int position, View convertView, ViewGroup parent)
             {
                 View view =super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 textView.setTextSize(10);
                 textView.setTextColor(Color.BLACK);
                 return view;
-            }
+            }*/
         };
-        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS){
-            @Override public View getView(int position, View convertView, ViewGroup parent)
-            {
-                View view =super.getView(position, convertView, parent);
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-                textView.setTextSize(10);
-                textView.setTextColor(Color.BLACK);
-                return view;
-            }
+        adapterConsulta3 = new ArrayAdapter<String>(this, R.layout.simple_list_adapter_2, EVENTOSDATOS);
+        adapterConsulta2 = new ArrayAdapter<String>(this, R.layout.simple_list_adapt, ENFERMERASDATOS){
         };
     }
     public void turno() {
@@ -199,7 +221,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     }
     public void consulEvento() {
         if (turnoON == "CONSULTAENFERMERA") {
-
             if (turno == "MANANA") {
                 url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASMANANA.php";
             }
@@ -209,16 +230,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             if (turno == "NOCHE") {
                 url1 = "http://192.168.0.15/BDSEP/CONSULTARENFERMERASNOCHE.php?";
             }
-
         }
         if (turnoON == "CONSULTAEVENTO") {
                 url1 = "http://192.168.0.15/BDSEP/CONSULTAEVENTO.php";
-                arreglo1 = arreglo1 + 1;
         }
         if (turnoON == "UPDATEENFERMERA") {
             url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIOGENERAL=" + FOLENFE +"&TIPODELLAMADO="+TIPODELLAMADO+ "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
             url1 = url1.replace(" ", "%20");
-            titulo.setText(url1);
         }
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
@@ -236,33 +254,30 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 for (i = 0; i < consulta.length(); i++) {
                     obtenerdatos();
                     String index = String.valueOf(i);
-                    EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO+"\nINDEX=";
-                    LISTAEVENTOS.setAdapter(adapterConsulta1);
-                    if(TR.contains("SIN RESPUESTA")) {
+                    EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO;
+                    if(TR.contains("SIN RESPUESTA")==true) {
 
-
-                           if((HABITACION.contains(REPHABITACION)) == true) {
-                                titulo.setText("igual");
-                                a--;
-                                EVENTOSDATOS.remove(a);
-                            }
-                            EVENTOSDATOS.add(EVENTOGEN+i+"x="+a);
-                            a++;
-                            REPHABITACION = HABITACION;
-
-
-
-
-
+                    if((HABITACION.contains(REPHABITACION)) == true) {
+                        a--;
+                        EVENTOSDATOS.remove(a);
                     }
-                    else{
-                            //encontró dentro de la colección
-                        //alertNOEVENTOS();
+                    //EVENTOSDATOS.add(EVENTOGEN+"/"+index);
+                    EVENTOSDATOS.add(EVENTOGEN);
+                    a++;
+                    REPHABITACION = HABITACION;
+                    arreglo1 =10;
+
                     }
                 }
-            } catch (JSONException e) {
+
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             }
+            if(arreglo1 !=10){
+                alertNOEVENTOS();
+            }
+            LISTAEVENTOS.setAdapter(adapterConsulta1);
             Toast.makeText(getApplicationContext(), "CONSULTA EVENTOS LISTA", Toast.LENGTH_SHORT).show();
         }
         if (turnoON == "CONSULTAENFERMERA") {
@@ -294,19 +309,20 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             turnoON = "x";
             PACIENTEASISTIR.setText("");
             ENFEASISTIR.setText("");
-            Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     public void onErrorResponse (VolleyError error){
             if (turnoON == "CONSULTAEVENTO") {
-                Toast.makeText(getApplicationContext(), "ERROR CONSULTA EVENTO" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "ERROR CONSULTA EVENTO BASE DE DATOS VACIA" + error, Toast.LENGTH_LONG).show();
+                alertNOEVENTOS();
             }
             if (turnoON == "UPDATEENFERMERA") {
-                Toast.makeText(getApplicationContext(), "NO SE ACTUALIZO ENFERMERA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "NO SE ACTUALIZO ENFERMERA", Toast.LENGTH_LONG).show();
             }
             if (turnoON == "CONSULTAENFERMERA") {
-                Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS" + error, Toast.LENGTH_LONG).show();
             }
             }
     public void obtenerdatos() throws JSONException {
@@ -328,28 +344,100 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         TIPODELLAMADO=consultaUsuario.getTIPODELLAMDO();
         TR=consultaUsuario.getTR();
     }
-    public void alert2() {
-        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
-        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
-        alertmodificarenfermeras.setMessage(FOLIODISPOSITIVO);
-        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
-            }
-        });
-        alertmodificarenfermeras.show();
-    }
     public void alertNOEVENTOS() {
         AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
         noeventos.setTitle("NO AHI NUEVOS EVENTOS");
         noeventos.setMessage("Actualmente no tiene eventos de paciente");
+        final AlertDialog noeventosB = noeventos.create();
+        noeventosB.setCanceledOnTouchOutside(true);
+        noeventosB.show();
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (noeventosB.isShowing()) {
+                    noeventosB.dismiss();
+                }
+            }
+        };
+        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        handler.postDelayed(runnable, 3000);
+    }
+    public void play() {
+        MediaPlayer m = new MediaPlayer();
+        try {
+            m.setDataSource(outputFile);
+        } catch (IOException e) {
+            alertaPLAY();
+        }
+        try {
+            m.prepare();
+        } catch (IOException e) {
+            alertaPLAY2();
+        }
+        m.start();
+        Toast.makeText(getApplicationContext(), "REPRODUCCION EVENTO", Toast.LENGTH_LONG).show();
+    }
+    public void alertaSD(){
+        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
+        noeventos.setTitle("ERROR!");
+        noeventos.setMessage("SD DANADA, LLENA, NO DETECTADA");
+        final AlertDialog noeventosB = noeventos.create();
+        noeventosB.setCanceledOnTouchOutside(true);
+        noeventosB.show();
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (noeventosB.isShowing()) {
+                    noeventosB.dismiss();
+                }
+            }
+        };
+        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        handler.postDelayed(runnable, 3000);
+    }
+    public void alertaPLAY(){
+        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
+        noeventos.setTitle("ERROR!");
+        noeventos.setMessage("ERROR AL OBTENER EL ARCHIVO DE AUDIO");
+        final AlertDialog noeventosB = noeventos.create();
+        noeventosB.setCanceledOnTouchOutside(true);
+        noeventosB.show();
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (noeventosB.isShowing()) {
+                    noeventosB.dismiss();
+                }
+            }
+        };
+        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        handler.postDelayed(runnable, 3000);
+    }
+    public void alertaPLAY2(){
+        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
+        noeventos.setTitle("ERROR!");
+        noeventos.setMessage("ERROR AL PROCESAR ARCHIVO DE AUDIO");
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
