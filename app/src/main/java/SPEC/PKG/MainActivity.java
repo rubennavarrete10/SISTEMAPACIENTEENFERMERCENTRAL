@@ -63,7 +63,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     String[] array = {};
     ArrayList<String> EVENTOSDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
-    ArrayAdapter<String> adapterConsulta1, adapterConsulta2,adapterConsulta3;
+    ArrayAdapter<String> adapterConsulta1, adapterConsulta2, adapterConsulta3;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     Usuarios consultaUsuario;
     JSONArray consulta;
@@ -183,9 +183,8 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 return view;
             }*/
         };
+        adapterConsulta2 = new ArrayAdapter<String>(this, R.layout.a, ENFERMERASDATOS);
         adapterConsulta3 = new ArrayAdapter<String>(this, R.layout.simple_list_adapter_2, EVENTOSDATOS);
-        adapterConsulta2 = new ArrayAdapter<String>(this, R.layout.simple_list_adapt, ENFERMERASDATOS){
-        };
     }
     public void turno() {
         turnoON = "CONSULTAENFERMERA";
