@@ -42,7 +42,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     String url1, SELENFERMERA, REPHABITACION, horafinal, turno, turnoON, fechafinal;
     String FECHA, HORA, TURNO, HABITACION,TIPODELLAMADO, FOLIODISPOSITIVO,TR, EVENTOGEN, idENFERMERA, NOMBRE, PRIMERAPEIDO, SEGUNDOAPEIDO, ENFERMEGEN,FOLENFE;
     int arreglo1 = 1;
-    int rep;
+    int i,a,rep;
     int delete=0;
     private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
     private ListView LISTAEVENTOS, LISTAENFERMERAS;
@@ -55,6 +55,8 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayAdapter<String> adapterConsulta1, adapterConsulta2,adapterConsulta3;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
+    Usuarios consultaUsuario;
+    JSONArray consulta;
     JsonObjectRequest jsonrequest;////////////////////////////////////////////////////////////json webservices/////////////////
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -67,36 +69,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         Button actualizar = (Button) findViewById(R.id.button);
         Button MODENFERMERAS = (Button) findViewById(R.id.MODENFERMERAS);
         Button ASISTIR = (Button) findViewById(R.id.ASISTIRPACIENTE);
-        request1 = Volley.newRequestQueue(this);
-        PACIENTEASISTIR = (TextView) findViewById(R.id.pacieAsisir);
-        ENFEASISTIR = (TextView) findViewById(R.id.enfeAsistir);
-        LISTAEVENTOS = (ListView) findViewById(R.id.eventosList);
-        LISTAENFERMERAS = (ListView) findViewById(R.id.enfermerasList);
-        titulo = (TextView) findViewById(R.id.textView);
-        CUADRITO = (TextView) findViewById(R.id.textView2);
-        tituloupdate = (TextView) findViewById(R.id.textView3);
-
-
-        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS){
-            @Override public View getView(int position, View convertView, ViewGroup parent)
-            {
-                View view =super.getView(position, convertView, parent);
-            TextView textView=(TextView) view.findViewById(android.R.id.text1);
-            textView.setTextSize(10);
-            textView.setTextColor(Color.BLACK);
-            return view;
-            }
-        };
-        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS){
-            @Override public View getView(int position, View convertView, ViewGroup parent)
-            {
-                View view =super.getView(position, convertView, parent);
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-                textView.setTextSize(10);
-                textView.setTextColor(Color.BLACK);
-                return view;
-            }
-        };
+        referenciasobjetos();
 
 ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
         date = new Date();
@@ -134,10 +107,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 SELENFERMERA = ENFEASISTIR.getText().toString();
             }
         });
-
-
-
-
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +120,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         ASISTIR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EVENTOSDATOS.remove(PACIENTEASISTIR);
                 EVENTOSDATOS.remove(delete);
                 adapterConsulta1.notifyDataSetChanged();
                 turnoON = "UPDATEENFERMERA";
@@ -166,54 +134,38 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             }
         });
     }
-
-    ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
-    public void alert2() {
-        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
-        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
-        alertmodificarenfermeras.setMessage(FOLIODISPOSITIVO);
-        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
-            }
-        });
-        alertmodificarenfermeras.show();
-    }
-    public void alertNOEVENTOS() {
-        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
-        noeventos.setTitle("NO AHI NUEVOS EVENTOS");
-        noeventos.setMessage("Actualmente no tiene eventos de paciente");
-        final AlertDialog noeventosB = noeventos.create();
-        noeventosB.setCanceledOnTouchOutside(true);
-        noeventosB.show();
-
-        final Handler handler  = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (noeventosB.isShowing()) {
-                    noeventosB.dismiss();
-                }
+    ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
+    private void referenciasobjetos() {
+        request1 = Volley.newRequestQueue(this);
+        PACIENTEASISTIR = (TextView) findViewById(R.id.pacieAsisir);
+        ENFEASISTIR = (TextView) findViewById(R.id.enfeAsistir);
+        LISTAEVENTOS = (ListView) findViewById(R.id.eventosList);
+        LISTAENFERMERAS = (ListView) findViewById(R.id.enfermerasList);
+        titulo = (TextView) findViewById(R.id.textView);
+        CUADRITO = (TextView) findViewById(R.id.textView2);
+        tituloupdate = (TextView) findViewById(R.id.textView3);
+        adapterConsulta1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, EVENTOSDATOS){
+            @Override public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View view =super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                textView.setTextSize(10);
+                textView.setTextColor(Color.BLACK);
+                return view;
             }
         };
-
-        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                handler.removeCallbacks(runnable);
+        adapterConsulta2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ENFERMERASDATOS){
+            @Override public View getView(int position, View convertView, ViewGroup parent)
+            {
+                View view =super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                textView.setTextSize(10);
+                textView.setTextColor(Color.BLACK);
+                return view;
             }
-        });
-        handler.postDelayed(runnable, 3000);
+        };
     }
-
-    public boolean turno() {
+    public void turno() {
         turnoON = "CONSULTAENFERMERA";
         try {
             horaD = new Date();
@@ -244,10 +196,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         } catch (ParseException e) {
             turno = "ERROR";
         }
-        return false;
     }
-
-
     public void consulEvento() {
         if (turnoON == "CONSULTAENFERMERA") {
 
@@ -276,64 +225,40 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     }
     @Override
     public void onResponse(JSONObject response) {
-        JSONArray consulta = response.optJSONArray("usuario");
-        Usuarios consultaUsuario;
+        //JSONArray consulta = response.optJSONArray("usuario");
+        consulta = response.optJSONArray("usuario");
+       // Usuarios consultaUsuario;
 
         if (turnoON == "CONSULTAEVENTO") {
             turnoON = "x";
             try {
-                int i,a;
                 a=0;
-                rep=0;
                 for (i = 0; i < consulta.length(); i++) {
-                    consultaUsuario = new Usuarios();
-                    JSONObject jsonconsulta = null;
-                    jsonconsulta = consulta.getJSONObject(i);
-                    consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIOGENERAL"));
-                    consultaUsuario.setFECHA(jsonconsulta.optString("FECHA"));
-                    consultaUsuario.setTIPODELLAMDO(jsonconsulta.optString("TIPODELLAMADO"));
-                    consultaUsuario.setHORA(jsonconsulta.optString("HORA"));
-                    consultaUsuario.setTURNO(jsonconsulta.optString("TURNO"));
-                    consultaUsuario.setHABITACION(jsonconsulta.optString("HABITACION"));
-                    consultaUsuario.setTR(jsonconsulta.optString("TIEMPORESPUESTA"));
-                    FOLIODISPOSITIVO = consultaUsuario.getFOLIODISPOSITIVO();
-                    FECHA = consultaUsuario.getFECHA();
-                    HORA = consultaUsuario.getHORA();
-                    TURNO = consultaUsuario.getTURNO();
-                    HABITACION = consultaUsuario.getHABITACION();
-                    TIPODELLAMADO=consultaUsuario.getTIPODELLAMDO();
-                    TR=consultaUsuario.getTR();
-                    EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO;
+                    obtenerdatos();
+                    String index = String.valueOf(i);
+                    EVENTOGEN = "TIPODELLAMADO: "+TIPODELLAMADO+"\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION+"\nFOLIODISPOSITIVO="+FOLIODISPOSITIVO+"\nINDEX=";
                     LISTAEVENTOS.setAdapter(adapterConsulta1);
-                    if(TR.compareTo("SIN RESPUESTA") == 0) {
+                    if(TR.contains("SIN RESPUESTA")) {
 
-                            if(rep==0){
-                                EVENTOSDATOS.add(EVENTOGEN);
-                                rep=1;
-                            }
-                            if(HABITACION.compareTo(REPHABITACION) == 0) {
 
+                           if((HABITACION.contains(REPHABITACION)) == true) {
+                                titulo.setText("igual");
+                                a--;
                                 EVENTOSDATOS.remove(a);
-                                EVENTOSDATOS.add(EVENTOGEN);
                             }
-                            if(HABITACION.compareTo(REPHABITACION) == 1) {
-                                EVENTOSDATOS.add(EVENTOGEN);
-                                a++;
-                            }
-                            if(HABITACION.compareTo(REPHABITACION) == -1) {
-                                EVENTOSDATOS.add(EVENTOGEN);
-                                a++;
-                            }
-
-
+                            EVENTOSDATOS.add(EVENTOGEN+i+"x="+a);
+                            a++;
                             REPHABITACION = HABITACION;
-                    }
-                    /*if(EVENTOSDATOS == null || EVENTOSDATOS.size() == 0)
-                    {
-                        // el arraylist no tiene valor
-                        alertNOEVENTOS();
-                    }*/
 
+
+
+
+
+                    }
+                    else{
+                            //encontró dentro de la colección
+                        //alertNOEVENTOS();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -384,6 +309,67 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 Toast.makeText(getApplicationContext(), "ERROR CONSULTA ENFERMERAS" + error, Toast.LENGTH_SHORT).show();
             }
             }
+    public void obtenerdatos() throws JSONException {
+        consultaUsuario = new Usuarios();
+        JSONObject jsonconsulta = null;
+        jsonconsulta = consulta.getJSONObject(i);
+        consultaUsuario.setFOLIODISPOSITIVO(jsonconsulta.optString("FOLIOGENERAL"));
+        consultaUsuario.setFECHA(jsonconsulta.optString("FECHA"));
+        consultaUsuario.setTIPODELLAMDO(jsonconsulta.optString("TIPODELLAMADO"));
+        consultaUsuario.setHORA(jsonconsulta.optString("HORA"));
+        consultaUsuario.setTURNO(jsonconsulta.optString("TURNO"));
+        consultaUsuario.setHABITACION(jsonconsulta.optString("HABITACION"));
+        consultaUsuario.setTR(jsonconsulta.optString("TIEMPORESPUESTA"));
+        FOLIODISPOSITIVO = consultaUsuario.getFOLIODISPOSITIVO();
+        FECHA = consultaUsuario.getFECHA();
+        HORA = consultaUsuario.getHORA();
+        TURNO = consultaUsuario.getTURNO();
+        HABITACION = consultaUsuario.getHABITACION();
+        TIPODELLAMADO=consultaUsuario.getTIPODELLAMDO();
+        TR=consultaUsuario.getTR();
+    }
+    public void alert2() {
+        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
+        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
+        alertmodificarenfermeras.setMessage(FOLIODISPOSITIVO);
+        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
+            }
+        });
+        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertmodificarenfermeras.show();
+    }
+    public void alertNOEVENTOS() {
+        AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
+        noeventos.setTitle("NO AHI NUEVOS EVENTOS");
+        noeventos.setMessage("Actualmente no tiene eventos de paciente");
+        final AlertDialog noeventosB = noeventos.create();
+        noeventosB.setCanceledOnTouchOutside(true);
+        noeventosB.show();
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (noeventosB.isShowing()) {
+                    noeventosB.dismiss();
+                }
+            }
+        };
+        noeventosB.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        handler.postDelayed(runnable, 3000);
+    }
 }
 
