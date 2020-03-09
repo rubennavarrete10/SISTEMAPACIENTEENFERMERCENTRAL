@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,46 +51,26 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     int arreglo1 = 1;//SE USA PARA SABER SI SI TENEMOS EVENTOS NUEVOS
     int i,a,A,Hlist=0;// "i" para el for al tomar eventos, "a" para registrar habitacion, "Hlist" para pasar HABITACION a int, "A" para emergencia
     int x,y =0,z=0;// se usan para saber si esta registrada la habitacion y donde esta.
-
     int deleteA=0,deleteE=0;
     private TextView PACIENTEASISTIR, ENFEASISTIR, titulo, CUADRITO, tituloupdate;
     private ListView LISTAEVENTOSA, LISTAENFERMERAS,LISTAEVENTOSE;
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date horaD, date;
+
+
     String[] array = {};
+    String sDesignation="P",sDesignationE="P";
+    int [] BUSCAHABITACION = new int [50];
+    String [][] DATOSHABITACION = new String[50][100];
+    int [] BUSCAHABITACIONE = new int [50];
+    String [][] DATOSHABITACIONE = new String[50][100];////////////////////// [fila] [columna]
 
 
-
-
-
-
-
-
-    String sDesignation="P";
-    int [] BUSCAHABITACION = new int [1000];
-    String [][] DATOSHABITACION = new String[1000][1000];////////////////////// [fila] [columna]
-
-    List<List<String>> ASISTENCIASFILA = new ArrayList<List<String>>();    ////////////////array 2*2
-    List<List<String>> ASISTENCIASCOL = new ArrayList<List<String>>();    ////////////////array 2*2
     ArrayList<String> EVENTOSDATOSE = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> EVENTOSDATOSA = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
     ArrayAdapter<String> adapterConsulta1, adapterConsulta2, adapterConsulta3, adapterConsulta101;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     Usuarios consultaUsuario;
     JSONArray consulta;
@@ -166,7 +147,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             @Override
             public void onClick(View v) {
                 /*EVENTOSDATOSE.remove(deleteE);
-                EVENTOSDATOSA.remove(deleteA);*/
+                  EVENTOSDATOSA.remove(1);*/
                 adapterConsulta1.notifyDataSetChanged();
                 adapterConsulta2.notifyDataSetChanged();
                 turnoON = "UPDATEENFERMERA";
@@ -269,17 +250,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         if (turnoON == "UPDATEENFERMERA") {
             url1 = "http://192.168.0.15/BDSEP/UPDATEENFERMERAS.php?FOLIOGENERAL=" + FOLENFE +"&TIPODELLAMADO="+TIPODELLAMADO+ "&FECHA=" + FECHA + "&HORA=" + HORA + "&HABITACION=" + HABITACION + "&ENFERMERA=" + SELENFERMERA;
             url1 = url1.replace(" ", "%20");
+            deleteA=0;
+            deleteE=0;
         }
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
     }
-
-
-
-
-
-
-
 
 
 
@@ -298,37 +274,42 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 for (i = 0; i < consulta.length(); i++) {
                     obtenerdatos();
                     EVENTOGEN = "TIPODELLAMADO: " + TIPODELLAMADO + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nTURNO: " + TURNO + "\nHABITACION: " + HABITACION + "\nFOLIODISPOSITIVO=" + FOLIODISPOSITIVO;
+                    ////obtencion del audio
+
+                    ////////////////////////
                     String index = String.valueOf(i);
                     if (TR.contains("SIN RESPUESTA") == true) {
                         if (TIPODELLAMADO.contains("ASISTENCIA") == true) {
-                            arreglo1 = 10;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// /////////////////////////////////////////
-                            buscarHabitacio(HABITACION, BUSCAHABITACION);
-                            Hlist = Integer.parseInt(HABITACION);
-
-                            if (y == 1) {
-                                //habitacion ya registrada, regitrar evento en la habitacion hList
-                                DATOSHABITACION[Hlist][z] = EVENTOGEN;
-                            }
-                            if (y != 1) {
-                                //registrar habitacion
-                                BUSCAHABITACION[Hlist] = Hlist;///////////////acomoda las habitaciones
-                                //regitrar evento en la habitacion hList
-                                DATOSHABITACION[Hlist][z] = EVENTOGEN;
-                            }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// /////////////////////////
+                                    arreglo1 = 10;
+                                    buscarHabitacio(HABITACION, BUSCAHABITACION);
+                                    Hlist = Integer.parseInt(HABITACION);
+                                    if (y == 1) {
+                                        //habitacion ya registrada, regitrar evento en la habitacion hList
+                                        DATOSHABITACION[Hlist][z] = EVENTOGEN;
+                                    }
+                                    if (y != 1) {
+                                        //registrar habitacion
+                                        BUSCAHABITACION[Hlist] = Hlist;///////////////acomoda las habitaciones
+                                        //regitrar evento en la habitacion hList
+                                        DATOSHABITACION[Hlist][z] = EVENTOGEN;
+                                    }
                         }
                         else if (TIPODELLAMADO.contains("EMERGENCIA") == true) {
-                            A++;
-                            if ((HABITACION.contains(REPHABITACION)) == true) {
-                                A--;
-                                EVENTOSDATOSE.remove(A);
-                            }
-                            EVENTOSDATOSE.add(EVENTOGEN);
-                            A++;
-                            REPHABITACION = HABITACION;
-                            arreglo1 = 10;
-                        } else {
+                                    arreglo1 = 10;
+                                    buscarHabitacioE(HABITACION, BUSCAHABITACION);
+                                    Hlist = Integer.parseInt(HABITACION);
+                                    if (y == 1) {
+                                        //habitacion ya registrada, regitrar evento en la habitacion hList
+                                        DATOSHABITACIONE[Hlist][0] = EVENTOGEN;
+                                    }
+                                    if (y != 1) {
+                                        //registrar habitacion
+                                        BUSCAHABITACIONE[Hlist] = Hlist;///////////////acomoda las habitaciones
+                                        //regitrar evento en la habitacion hList
+                                        DATOSHABITACIONE[Hlist][0] = EVENTOGEN;
+                                    }
+                        }
+                        else {
                             alertaBasededatos();
                         }
                     }
@@ -378,28 +359,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -594,6 +553,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         HABITACION= HABITACION.toString().substring(0,87);
         HABITACION= HABITACION.toString().substring(84);
         deleteE=i;
+        deleteA=i;
     }
     public void EMERGENCIA(String EH,String EF,String EHORA,String SEF) {
         AlertDialog.Builder noeventos = new AlertDialog.Builder(this);
@@ -645,40 +605,50 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             System.out.println("El numero no esta");
         }
     }
-    public void GenerardDatos(){
-        for (int f=0; f<200;f++) {
-            sDesignation =sDesignation+ DATOSHABITACION[102][f];
-            if(sDesignation.contains("P") == true) {
-                if (sDesignation.contains("null") == false) {
-                    sDesignation= sDesignation.toString().substring(1);
-                    EVENTOSDATOSA.add(sDesignation);
-                }
-            }
-            sDesignation="P";
-        }
-    /*for (int f=0; f<200;f++) {
-        sDesignation =sDesignation+ DATOSHABITACION[102][f];
-        if(sDesignation.contains("P") == true) {
-            if (sDesignation.contains("null") == false) {
-                sDesignation= sDesignation.toString().substring(1);
-                EVENTOSDATOSA.add(sDesignation);
+    public void buscarHabitacioE(String nhabitacion, int[] asiscol){
+        y =0;
+        //System.out.print("buscar numero: ");
+        asiscol = BUSCAHABITACION;
+        int hcol = Integer.parseInt(HABITACION);
+        //102,102,101
+        for(x=0;x<BUSCAHABITACION.length;x++){
+            if (hcol == asiscol[x]) {
+                System.out.println("El numero esta en el indice "+x);
+                z++;
+                y=1;
             }
         }
-        //sDesignation =sDesignation+ DATOSHABITACION[102][f];
-        sDesignation="P";
+        if(y !=1) {
+            z=0;
+            System.out.println("El numero no esta");
+        }
     }
-        for (int f=0; f<200;f++) {
-            sDesignation =sDesignation+ DATOSHABITACION[102][f];
-            if(sDesignation.contains("P") == true) {
-                if (sDesignation.contains("null") == false) {
-                    sDesignation= sDesignation.toString().substring(1);
-                    EVENTOSDATOSA.add(sDesignation);
+    public void GenerardDatos(){
+        //////////////////EMERGENCIAS POR FECHAS/////////////////////////////
+        for (int f=0; f<50;f++) {
+            sDesignationE =sDesignationE+ DATOSHABITACIONE[f][0];
+                if (sDesignationE.contains("null") == false) {
+                    sDesignationE= sDesignationE.toString().substring(1);
+                    EVENTOSDATOSE.add(sDesignationE);
                 }
-            }
-            //sDesignation =sDesignation+ DATOSHABITACION[102][f];
-            sDesignation="P";
-        }*/
-
+            sDesignationE="P";
+        }
+        //////////////////////////////////////ASISTENCIAS POR CUARTO////////////////////////
+        y =0;
+        sDesignation="P";
+        for(x=0;x<BUSCAHABITACION.length;x++){
+           if (BUSCAHABITACION[x] > 0) {
+                //tiene habitacion
+                for (int f=0; f<50;f++) {
+                    sDesignation=""+DATOSHABITACION[x][f];
+                    if (sDesignation.contains("null" )==false){
+                        DATOSHABITACION[x][0]=DATOSHABITACION[x][f];
+                    }
+                }
+                sDesignation=""+DATOSHABITACION[x][0];
+           EVENTOSDATOSA.add(sDesignation);
+           }
+        }
     }
 }
 
