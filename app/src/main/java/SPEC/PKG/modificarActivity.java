@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class modificarActivity extends AppCompatActivity {
 
@@ -94,6 +99,7 @@ public class modificarActivity extends AppCompatActivity {
                 alert();
             }
         });
+
     }
     public void agregar() {
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
