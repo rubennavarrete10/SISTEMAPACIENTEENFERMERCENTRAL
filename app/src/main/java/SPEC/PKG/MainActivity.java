@@ -5,28 +5,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.database.DataSetObserver;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,16 +49,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date horaD, date;
-
-
     String[] array = {};
     String sDesignation="P",sDesignationE="P";
     int [] BUSCAHABITACION = new int [50];
     String [][] DATOSHABITACION = new String[50][100];
     int [] BUSCAHABITACIONE = new int [50];
     String [][] DATOSHABITACIONE = new String[50][100];////////////////////// [fila] [columna]
-
-
     ArrayList<String> EVENTOSDATOSE = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> EVENTOSDATOSA = new ArrayList<String>(Arrays.asList(array));
     ArrayList<String> ENFERMERASDATOS = new ArrayList<String>(Arrays.asList(array));
@@ -152,7 +140,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 adapterConsulta2.notifyDataSetChanged();
                 turnoON = "UPDATEENFERMERA";
                 consulEvento();
-
             }
         });
         MODENFERMERAS.setOnClickListener(new View.OnClickListener() {
@@ -256,11 +243,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);////////////////////////////////////////////////////////////json webservices/////////////////
         request1.add(jsonrequest);////////////////////////////////////////////////////////////json webservices/////////////////
     }
-
-
-
-
-
     @Override
     public void onResponse(JSONObject response) {
         //JSONArray consulta = response.optJSONArray("usuario");
@@ -359,12 +341,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             Toast.makeText(getApplicationContext(), "REGISTRO ACTUALIZADO", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
-
     @Override
     public void onErrorResponse (VolleyError error){
             if (turnoON == "CONSULTAEVENTO") {
@@ -404,7 +380,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
-
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -444,7 +419,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
-
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -469,7 +443,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
-
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -494,7 +467,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
-
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -519,7 +491,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         final AlertDialog noeventosB = noeventos.create();
         noeventosB.setCanceledOnTouchOutside(true);
         noeventosB.show();
-
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
