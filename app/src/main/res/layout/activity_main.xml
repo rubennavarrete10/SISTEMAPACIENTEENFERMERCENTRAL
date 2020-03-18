@@ -1,172 +1,388 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
+    android:background="@android:color/holo_orange_dark"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/MODENFERMERAS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="MODIFICAR ENFERMERAS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/ASISTIRPACIENTE"
-        android:layout_width="190dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="12dp"
-        android:text="ASISTENCIA GENERADA"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/MODENFERMERAS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="60dp"
-        android:text="EVENTOS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/eventosList"
-        android:layout_width="185dp"
-        android:layout_height="285dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@android:color/background_light"
-        android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <ListView
-        android:id="@+id/enfermerasList"
-        android:layout_width="185dp"
-        android:layout_height="285dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/background_light"
-        android:textSize="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/eventosList"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    tools:context=".MainActivity"
+    android:id="@+id/lienarmain">
 
     <TextView
-        android:id="@+id/pacieAsisir"
-        android:layout_width="250dp"
-        android:layout_height="110dp"
-        android:background="@android:color/background_light"
-        android:ems="10"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.382" />
-
-    <TextView
-        android:id="@+id/enfeAsistir"
+        android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:ems="10"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="CENTRAL PACIENTE ENFERMERA"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/background_light"
-        android:text="CENTRAL ENFERMERAS PACIENTES"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/enfermeras"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="186dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:background="@android:color/background_light"
-        android:text="EVENTOS DE PACIENTES"
-        android:textSize="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/background_light"
-        android:text="ENFERMERAS DISPONIBLES"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/enfermeras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PACIENTE PROXIMO A ATENDER"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ENFERMERA ASISTENTE"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.606" />
-
-    <ListView
-        android:id="@+id/eventosListE"
-        android:layout_width="190dp"
-        android:layout_height="201dp"
-        android:background="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventosList"
-        app:layout_constraintVertical_bias="0.483" />
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="442dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/holo_orange_dark">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/sec4h6"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="6"
+            android:layout_marginBottom="25dp"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec4h5"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="5"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec4h4"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="4"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec4h3"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="6"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec4h2"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="5"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec4h1"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="4"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h6"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="2"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h5"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="1"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h4"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h3"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h2"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec3h1"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h6"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="6"
+            android:background="@android:color/background_light"
+            android:layout_marginBottom="10dp"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h5"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="5"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h4"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="4"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h3"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="6"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h2"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="5"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec2h1"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="4"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h6"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h5"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h4"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h3"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h2"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/sec1h1"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:background="@android:color/background_light"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="SECCION 1"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:text="SECCION 2"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:text="SECCION 3"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="4"
+            android:text="SECCION 4"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/SEC1SINENFE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="SIN ENFERMERA"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/SEC2SINENFE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="5"
+            android:text="SIN ENFERMERA"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/SEC3SINENFE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:text="SIN ENFERMERA"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/SEC4SINENFE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="5"
+            android:text="SIN ENFERMERA"
+            android:textColor="@android:color/black"/>
+
+
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/estacion"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:text="ESTACION 1"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/ser"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="91dp"
+            android:text="SERVICIO" />
+
+        <Button
+            android:id="@+id/ini"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="340dp"
+            android:layout_marginRight="10dp"
+            android:text="INICIAR SESION" />
+
+        <Button
+            android:id="@+id/out"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="CERRAR SESION" />
+
+    </LinearLayout>
+
+</LinearLayout>
