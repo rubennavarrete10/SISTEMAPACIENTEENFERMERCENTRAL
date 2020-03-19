@@ -1,6 +1,7 @@
 package SPEC.PKG;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import java.io.IOException;
@@ -46,16 +48,21 @@ import org.json.JSONObject;
 
 public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>, login.Datoslogin, loginservicio.Datoslogin, logout.Datoslogout {
 
-    int i,a=0,b1=0,b2=0,b3=0,b4=0;
+    int i,a=0,b1=0,b2=0,b3=0,b4=0,c=0;
     String url1,PLAYER;
     String FECHA="N/A", HORA="N/A", TURNO="N/A", HABITACION="N/A",TIPODELLAMADO="N/A", FOLIODISPOSITIVO="N/A",ENFERMERA="N/A",TR="N/A",ESTACION="N/A",SECCION="N/A",AUDIO="N/A",PACIENTE= "N/A" ,MEDICO="N/A",PAGO="N/A";
-    String CONTRASENA="N/A", NOMBREENFERMERA="N/A",CONTRASENAINSERTADA="N/A",SECCIONINS="N/A";
+    String CONTRASENA="N/A", NOMBREENFERMERA="N/A",CONTRASENAINSERTADA="N/A",SECCIONINS="N/A",SECCIONOUT="N/A",USUARIOINS="N/A",USUARIOUT="N/A",AVISO="";
 
     private TextView SEC1,SEC2,SEC3,SEC4;
+    String SEC1S="SIN ENFERMERA", SEC2S="SIN ENFERMERA", SEC3S="SIN ENFERMERA", SEC4S="SIN ENFERMERA";
     private TextView SEC1H1,SEC1H2,SEC1H3,SEC1H4,SEC1H5,SEC1H6;
     private TextView SEC2H1,SEC2H2,SEC2H3,SEC2H4,SEC2H5,SEC2H6;
     private TextView SEC3H1,SEC3H2,SEC3H3,SEC3H4,SEC3H5,SEC3H6;
     private TextView SEC4H1,SEC4H2,SEC4H3,SEC4H4,SEC4H5,SEC4H6;
+
+    String []sesiones={"N/A","N/A","N/A","N/A"};
+
+    RequestQueue MyRequestQueue;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     Usuarios consultaUsuario;
     JSONArray consulta;
@@ -81,26 +88,20 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         Button SERVICIO = (Button)findViewById(R.id.ser);
         final Button login = (Button) findViewById(R.id.ini);
         final Button logOut =(Button) findViewById(R.id.out);
-
-///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
-
         referenciasobjetos();
+///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
         TimerTask ciclo = new TimerTask() {
             @Override
             public void run() {
+                SEC1S=SEC1.getText().toString();
+                SEC2S=SEC2.getText().toString();
+                SEC3S=SEC3.getText().toString();
+                SEC4S=SEC4.getText().toString();
                 consulEvento();
             }
         };tiempo.schedule(ciclo,100,1000);
 
 
-
-            SEC1H1.setOnClickListener(new AdapterView.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-1"+" "+PLAYER, Toast.LENGTH_SHORT).show();
-                }
-            });
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,6 +125,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
     private void referenciasobjetos() {
         request1 = Volley.newRequestQueue(this);
+        MyRequestQueue = Volley.newRequestQueue(this);
         SEC1=(TextView)findViewById(R.id.SEC1SINENFE);
         SEC2=(TextView)findViewById(R.id.SEC2SINENFE);
         SEC3=(TextView)findViewById(R.id.SEC3SINENFE);
@@ -213,173 +215,222 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
         SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
 
+        SEC1H1.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-1", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         SEC1H2.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "1-2", Toast.LENGTH_SHORT).show();
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC1H3.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "1-3", Toast.LENGTH_SHORT).show();
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-3", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC1H4.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "1-4", Toast.LENGTH_SHORT).show();
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-4", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC1H5.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "1-5", Toast.LENGTH_SHORT).show();
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-5", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC1H6.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "1-6", Toast.LENGTH_SHORT).show();
+                if (SEC1S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "1-6", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         SEC2H1.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-1", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC2H2.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC2H3.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-3", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-3", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC2H4.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-4", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-4", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC2H5.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-5", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-5", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC2H6.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "2-6", Toast.LENGTH_SHORT).show();
+                if (SEC2S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "2-6", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         SEC3H1.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-1", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC3H2.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC3H3.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-3", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-3", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC3H4.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-4", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-4", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC3H5.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-5", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-5", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC3H6.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "3-6", Toast.LENGTH_SHORT).show();
+                if (SEC3S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "3-6", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         SEC4H1.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-1", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC4H2.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC4H3.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-3", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-3", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC4H4.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-4", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-4", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC4H5.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-5", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-5", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         SEC4H6.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //play();
-                Toast.makeText(getApplicationContext(), "4-6", Toast.LENGTH_SHORT).show();
+                if (SEC4S.equals("SIN ENFERMERA") == false) {
+                    //play();
+                    Toast.makeText(getApplicationContext(), "4-6", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-
-
     }
 
     public void consulEvento() {
@@ -769,801 +820,108 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             a=0;
         }
         if(a==2) {
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
+                    url1 = url1.replace(" ", "%20");
+                    StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }) {
+                    };
+                    MyRequestQueue.add(MyStringRequest);
+                }
+            }, 200);
+
+
             consulta = response.optJSONArray("usuario");
             try {
                 for (i = 0; i < consulta.length(); i++) {
                     obtenerdatos();
-                    if (SECCION.equals("1") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC1H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC1H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC1H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC1H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC1H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC1H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                                //HACER ARRAY PARA ALMACENAR LOS AUDIOS Y REPRODUCIRLOS
-                                //PLAYER=PLAYER+AUDIO;
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                        }
-                    }
-                    if (SECCION.equals("2") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC2H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC2H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC2H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC2H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC2H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC2H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
-                    if (SECCION.equals("3") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC3H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC3H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC3H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC3H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC3H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC3H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
-                    if (SECCION.equals("4") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC4H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC4H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC4H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC4H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
                 }
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "ERROR CONSILTA", Toast.LENGTH_SHORT).show();
             }
-            if (CONTRASENA.equals(CONTRASENAINSERTADA) == true) {
-                if (SECCIONINS.equals("1") && b1 == 0) {
-                    Toast.makeText(getApplicationContext(), "SESION ENFERMERA INICIADA", Toast.LENGTH_SHORT).show();
+            if (CONTRASENA.equals(CONTRASENAINSERTADA) == true ) {
+                AVISO="SECCION INCORRECTA";
+                if (SECCIONINS.equals("1")==true && b1 == 0 && sesiones[0].equals("N/A")==true) {
                     SEC1.setText(NOMBREENFERMERA);
                     b1=1;
+                    sesiones[0]=USUARIOINS;
+                    AVISO="SESION ENFERMERA INICIADA";
                 }
-                if (SECCIONINS.equals("2") && b2 == 0) {
-                    Toast.makeText(getApplicationContext(), "SESION ENFERMERA INICIADA", Toast.LENGTH_SHORT).show();
+                if (SECCIONINS.equals("2")==true && b2 == 0 && sesiones[1].equals("N/A")==true) {
                     SEC2.setText(NOMBREENFERMERA);
-                    b2=2;
+                    b2=1;
+                    sesiones[1]=USUARIOINS;
+                    AVISO="SESION ENFERMERA INICIADA";
                 }
-                if (SECCIONINS.equals("3") && b3 == 0) {
-                    Toast.makeText(getApplicationContext(), "SESION ENFERMERA INICIADA", Toast.LENGTH_SHORT).show();
+                if (SECCIONINS.equals("3")==true && b3 == 0 && sesiones[2].equals("N/A")==true) {
                     SEC3.setText(NOMBREENFERMERA);
-                    b3=3;
+                    b3=1;
+                    sesiones[2]=USUARIOINS;
+                    AVISO="SESION ENFERMERA INICIADA";
                 }
-                if (SECCIONINS.equals("4") && b4 == 0) {
-                    Toast.makeText(getApplicationContext(), "SESION ENFERMERA INICIADA", Toast.LENGTH_SHORT).show();
+                if (SECCIONINS.equals("4")==true && b4 == 0 && sesiones[3].equals("N/A")==true) {
                     SEC4.setText(NOMBREENFERMERA);
-                    b4=4;
+                    b4=1;
+                    sesiones[3]=USUARIOINS;
+                    AVISO="SESION ENFERMERA INICIADA";
                 }
-                Toast.makeText(getApplicationContext(), "SECCION YA ASIGNADA", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "USUARIO O CONTRASEÑA INCORRECTA", Toast.LENGTH_SHORT).show();
+                AVISO="USUARIO O CONTRASEÑA INCORRECTA ";
             }
+            Toast.makeText(getApplicationContext(), ""+AVISO, Toast.LENGTH_SHORT).show();
             a = 0;
+
         }
         if(a==3){
             consulta = response.optJSONArray("usuario");
             try {
                 for (i = 0; i < consulta.length(); i++) {
                     obtenerdatos();
-                    if (SECCION.equals("1") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC1H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC1H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC1H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC1H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC1H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC1H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC1H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                                //HACER ARRAY PARA ALMACENAR LOS AUDIOS Y REPRODUCIRLOS
-                                //PLAYER=PLAYER+AUDIO;
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC1H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC1H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC1H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                        }
-                    }
-                    if (SECCION.equals("2") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC2H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC2H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC2H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC2H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC2H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC2H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC2H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC2H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC2H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
-                    if (SECCION.equals("3") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC3H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC3H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC3H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC3H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC3H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC3H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC3H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC3H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC3H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
-                    if (SECCION.equals("4") == true) {
-                        if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
-                                SEC4H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                SEC4H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                SEC4H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                SEC4H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
-                                SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-                            }
-                        }
-                        if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H1.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H1.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H2.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H2.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H3.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H3.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H4.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H4.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H5.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H5.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-                            if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
-                                SEC4H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
-                                if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
-                                    SEC4H6.setBackgroundColor(Color.parseColor("#FFC107"));
-                                }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
-                                    SEC4H6.setBackgroundColor(Color.parseColor("#B71C1C"));
-                                }
-                            }
-
-                        }
-                    }
                 }
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "ERROR CONSILTA", Toast.LENGTH_SHORT).show();
             }
             if (CONTRASENA.equals(CONTRASENAINSERTADA) == true) {
-                Toast.makeText(getApplicationContext(), "SESION ENFERMERA CERRADA", Toast.LENGTH_SHORT).show();
-                if (SECCIONINS.equals("1") && b1 == 1) {
+                AVISO="SECCION INCORRECTA";
+                if (SECCIONINS.equals("1")==true && b1 == 1 && sesiones[0].equals(USUARIOUT)==true ) {
                     SEC1.setText("SIN ENFERMERA");
                     b1=0;
+                    AVISO="SESION ENFERMERA CERRADA";
+                    sesiones[0]="N/A";
                 }
-                if (SECCIONINS.equals("2") && b2 == 2) {
+                if (SECCIONINS.equals("2")==true && b2 == 1 && sesiones[1].equals(USUARIOUT)==true) {
                     SEC2.setText("SIN ENFERMERA");
-                    b2=2;
+                    b2=0;
+                    AVISO="SESION ENFERMERA CERRADA";
+                    sesiones[1]="N/A";
                 }
-                if (SECCIONINS.equals("3") && b3 == 3) {
+                if (SECCIONINS.equals("3")==true && b3 == 1 && sesiones[2].equals(USUARIOUT)==true) {
                     SEC3.setText("SIN ENFERMERA");
-                    b3=3;
+                    b3=0;
+                    AVISO="SESION ENFERMERA CERRADA";
+                    sesiones[2]="N/A";
                 }
-                if (SECCIONINS.equals("4") && b4 == 4) {
+                if (SECCIONINS.equals("4")==true && b4 == 1 && sesiones[3].equals(USUARIOUT)==true) {
                     SEC4.setText("SIN ENFERMERA");
-                    b4=4;
+                    b4=0;
+                    AVISO="SESION ENFERMERA CERRADA";
+                    sesiones[3]="N/A";
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "USUARIO O CONTRASEÑA INCORRECTA", Toast.LENGTH_SHORT).show();
+                AVISO="USUARIO  CONTRASEÑA INCORRECTA";
+
             }
+            Toast.makeText(getApplicationContext(), ""+AVISO, Toast.LENGTH_SHORT).show();
             a = 0;
         }
     }
@@ -1614,15 +972,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         NOMBREENFERMERA = consultaUsuario.getNOMBREENEFERMERA();
     }
 
-
-
-
-
-
-
-
-
-
     public void login() {
         login login = new login();
         login.show(getSupportFragmentManager(), "INICIO SESION");
@@ -1638,6 +987,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     @Override
     public void applyTexts(String usuario, String contraseña, String seccion) {
         a=2;
+        USUARIOINS=usuario;
         CONTRASENAINSERTADA=contraseña;
         SECCIONINS=seccion;
         url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
@@ -1647,6 +997,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     }
     public void applyTexts2(String usuario, String contraseña, String seccion) {
         a=3;
+        USUARIOUT=usuario;
         CONTRASENAINSERTADA=contraseña;
         SECCIONINS=seccion;
         url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
@@ -1669,8 +1020,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             Toast.makeText(getApplicationContext(), "USUARIO O CONTRASEÑA INCORRECTA", Toast.LENGTH_SHORT).show();
         }
     }
-
-
     public void play() {
         MediaPlayer m = new MediaPlayer();
         try {
@@ -1766,6 +1115,28 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 @Override
                                 public void run() {
                                     // Do something after 5s = 5000ms
+
                                 }
-                            }, 200);*/
+                            }, 200);
+
+
+  handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
+                    url1 = url1.replace(" ", "%20");
+                    StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }) {
+                    };
+                    MyRequestQueue.add(MyStringRequest);
+                }
+            }, 200);
+ */
 
