@@ -1,8 +1,6 @@
 package SPEC.PKG;
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,23 +10,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -63,6 +52,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     String []sesiones={"N/A","N/A","N/A","N/A"};
     String [][]enfermeras= new String[24][5];
 
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    Date date = new Date();
+    String D0, D1,HD,H1;
+
+
+
     RequestQueue MyRequestQueue;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     Usuarios consultaUsuario;
@@ -86,6 +82,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
         }
 
+
         Button SERVICIO = (Button)findViewById(R.id.ser);
         final Button login = (Button) findViewById(R.id.ini);
         final Button logOut =(Button) findViewById(R.id.out);
@@ -101,7 +98,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 consulEvento();
             }
         };tiempo.schedule(ciclo,100,1000);
-
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,7 +117,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     loginSer();tiempo.cancel();tiempo.purge();
                 }
             });
-
      }
     ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
     private void referenciasobjetos() {
@@ -604,14 +599,22 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
 
     public void consulEvento() {
         a=1;
-        url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAEVENTO.php";
+        D0 = dateFormat.format(date);
+        D1 = dateFormat.format(date);
+        HD = D0.substring(0,2);
+        H1 = D0.substring(2);
+        int HDI=Integer.parseInt(HD);
+        HDI=HDI-1;///////// 1 = 2 DIAS EN LA COMPARACION///
+        HD = String.valueOf(HDI);
+        D0 = HD+H1;
+
+        url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAEVENTO.php?H1="+D0+"&H2="+D1;
         url1 = url1.replace(" ", "%20");
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);
         request1.add(jsonrequest);
     }
     @Override
     public void onResponse(JSONObject response) {
-
         if(a==1) {
             consulta = response.optJSONArray("usuario");
             try {
@@ -1396,7 +1399,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         handler.postDelayed(runnable, 1500);
     }
     public void insetenfermera(){
-        //http://localhost/BDEJEMPLOS/INSERTENFERMERA.php?HABITACION=105&PACIENTE=alejandro%20alejandro%20alejandro%20de%20castilla&FECHA=19/03/2020&HORA=17:18:35&TIPODELLAMADO=EMERGENCIA&NOMBREENFERMERA=ABCD
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -1419,17 +1421,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
 
 }
 
-/*final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Do something after 5s = 5000ms
-
-                                }
-                            }, 200);
-
-
-  handler.postDelayed(new Runnable() {
+/* handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
