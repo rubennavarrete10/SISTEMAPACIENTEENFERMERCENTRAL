@@ -61,6 +61,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     private TextView SEC4H1,SEC4H2,SEC4H3,SEC4H4,SEC4H5,SEC4H6;
 
     String []sesiones={"N/A","N/A","N/A","N/A"};
+    String [][]enfermeras= new String[24][5];
 
     RequestQueue MyRequestQueue;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
@@ -221,6 +222,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-1", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[0][0];
+                    FECHA=enfermeras[0][1];
+                    HORA=enfermeras[0][2];
+                    PACIENTE=enfermeras[0][3];
+                    TIPODELLAMADO=enfermeras[0][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -230,6 +238,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-2", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[1][0];
+                    FECHA=enfermeras[1][1];
+                    HORA=enfermeras[1][2];
+                    PACIENTE=enfermeras[1][3];
+                    TIPODELLAMADO=enfermeras[1][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -239,6 +254,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-3", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[2][0];
+                    FECHA=enfermeras[2][1];
+                    HORA=enfermeras[2][2];
+                    PACIENTE=enfermeras[2][3];
+                    TIPODELLAMADO=enfermeras[2][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -248,6 +270,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-4", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[3][0];
+                    FECHA=enfermeras[3][1];
+                    HORA=enfermeras[3][2];
+                    PACIENTE=enfermeras[3][3];
+                    TIPODELLAMADO=enfermeras[3][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -257,6 +286,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-5", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[4][0];
+                    FECHA=enfermeras[4][1];
+                    HORA=enfermeras[4][2];
+                    PACIENTE=enfermeras[4][3];
+                    TIPODELLAMADO=enfermeras[4][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -266,6 +302,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "1-6", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[5][0];
+                    FECHA=enfermeras[5][1];
+                    HORA=enfermeras[5][2];
+                    PACIENTE=enfermeras[5][3];
+                    TIPODELLAMADO=enfermeras[5][4];
+                    NOMBREENFERMERA=SEC1.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -275,6 +318,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "2-1", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[6][0];
+                    FECHA=enfermeras[6][1];
+                    HORA=enfermeras[6][2];
+                    PACIENTE=enfermeras[6][3];
+                    TIPODELLAMADO=enfermeras[6][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -284,6 +334,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[7][0];
+                    FECHA=enfermeras[7][1];
+                    HORA=enfermeras[7][2];
+                    PACIENTE=enfermeras[7][3];
+                    TIPODELLAMADO=enfermeras[7][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -293,6 +350,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "2-3", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[8][0];
+                    FECHA=enfermeras[8][1];
+                    HORA=enfermeras[8][2];
+                    PACIENTE=enfermeras[8][3];
+                    TIPODELLAMADO=enfermeras[8][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -301,7 +365,14 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             public void onClick(View view) {
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
-                    Toast.makeText(getApplicationContext(), "2-4", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[9][0];
+                    FECHA=enfermeras[9][1];
+                    HORA=enfermeras[9][2];
+                    PACIENTE=enfermeras[9][3];
+                    TIPODELLAMADO=enfermeras[9][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
+                    Toast.makeText(getApplicationContext(), "2-4"+HABITACION+FECHA+HORA+PACIENTE+TIPODELLAMADO, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -311,6 +382,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "2-5", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[10][0];
+                    FECHA=enfermeras[10][1];
+                    HORA=enfermeras[10][2];
+                    PACIENTE=enfermeras[10][3];
+                    TIPODELLAMADO=enfermeras[10][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -320,6 +398,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC2S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "2-6", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[11][0];
+                    FECHA=enfermeras[11][1];
+                    HORA=enfermeras[11][2];
+                    PACIENTE=enfermeras[11][3];
+                    TIPODELLAMADO=enfermeras[11][4];
+                    NOMBREENFERMERA=SEC2.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -329,6 +414,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-1", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[12][0];
+                    FECHA=enfermeras[12][1];
+                    HORA=enfermeras[12][2];
+                    PACIENTE=enfermeras[12][3];
+                    TIPODELLAMADO=enfermeras[12][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -338,6 +430,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[13][0];
+                    FECHA=enfermeras[13][1];
+                    HORA=enfermeras[13][2];
+                    PACIENTE=enfermeras[13][3];
+                    TIPODELLAMADO=enfermeras[13][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -347,6 +446,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-3", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[14][0];
+                    FECHA=enfermeras[14][1];
+                    HORA=enfermeras[14][2];
+                    PACIENTE=enfermeras[14][3];
+                    TIPODELLAMADO=enfermeras[14][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -356,6 +462,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-4", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[15][0];
+                    FECHA=enfermeras[15][1];
+                    HORA=enfermeras[15][2];
+                    PACIENTE=enfermeras[15][3];
+                    TIPODELLAMADO=enfermeras[15][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -365,6 +478,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-5", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[16][0];
+                    FECHA=enfermeras[16][1];
+                    HORA=enfermeras[16][2];
+                    PACIENTE=enfermeras[16][3];
+                    TIPODELLAMADO=enfermeras[16][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -374,6 +494,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC3S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "3-6", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[17][0];
+                    FECHA=enfermeras[17][1];
+                    HORA=enfermeras[17][2];
+                    PACIENTE=enfermeras[17][3];
+                    TIPODELLAMADO=enfermeras[17][4];
+                    NOMBREENFERMERA=SEC3.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -383,6 +510,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-1", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[18][0];
+                    FECHA=enfermeras[18][1];
+                    HORA=enfermeras[18][2];
+                    PACIENTE=enfermeras[18][3];
+                    TIPODELLAMADO=enfermeras[18][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -392,6 +526,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[19][0];
+                    FECHA=enfermeras[19][1];
+                    HORA=enfermeras[19][2];
+                    PACIENTE=enfermeras[19][3];
+                    TIPODELLAMADO=enfermeras[19][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -401,6 +542,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-3", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[20][0];
+                    FECHA=enfermeras[20][1];
+                    HORA=enfermeras[20][2];
+                    PACIENTE=enfermeras[20][3];
+                    TIPODELLAMADO=enfermeras[20][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -410,6 +558,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-4", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[21][0];
+                    FECHA=enfermeras[21][1];
+                    HORA=enfermeras[21][2];
+                    PACIENTE=enfermeras[21][3];
+                    TIPODELLAMADO=enfermeras[21][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -419,6 +574,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-5", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[22][0];
+                    FECHA=enfermeras[22][1];
+                    HORA=enfermeras[22][2];
+                    PACIENTE=enfermeras[22][3];
+                    TIPODELLAMADO=enfermeras[22][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -428,6 +590,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 if (SEC4S.equals("SIN ENFERMERA") == false) {
                     //play();
                     Toast.makeText(getApplicationContext(), "4-6", Toast.LENGTH_SHORT).show();
+                    HABITACION= enfermeras[23][0];
+                    FECHA=enfermeras[23][1];
+                    HORA=enfermeras[23][2];
+                    PACIENTE=enfermeras[23][3];
+                    TIPODELLAMADO=enfermeras[23][4];
+                    NOMBREENFERMERA=SEC4.getText().toString();
+                    insetenfermera();
                 }
             }
         });
@@ -477,8 +646,13 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                         }
                         if (TR.equals("SIN RESPUESTA") == true) {
                             if (HABITACION.equals("101") == true) {
-                                //REQUEST TABLA HABITACION
+
                                 SEC1H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
+                                enfermeras[0][0]=HABITACION;
+                                enfermeras[0][1]=FECHA;
+                                enfermeras[0][2]=HORA;
+                                enfermeras[0][3]=PACIENTE;
+                                enfermeras[0][4]=TIPODELLAMADO;
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H1.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
@@ -489,7 +663,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 //PLAYER=PLAYER+AUDIO;
                             }
                             if (HABITACION.equals("102") == true) {
-                                //REQUEST TABLA HABITACION
+
+                                enfermeras[1][0]=HABITACION;
+                                enfermeras[1][1]=FECHA;
+                                enfermeras[1][2]=HORA;
+                                enfermeras[1][3]=PACIENTE;
+                                enfermeras[1][4]=TIPODELLAMADO;
                                 SEC1H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H2.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -499,7 +678,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 }
                             }
                             if (HABITACION.equals("103") == true) {
-                                //REQUEST TABLA HABITACION
+
+                                enfermeras[2][0]=HABITACION;
+                                enfermeras[2][1]=FECHA;
+                                enfermeras[2][2]=HORA;
+                                enfermeras[2][3]=PACIENTE;
+                                enfermeras[2][4]=TIPODELLAMADO;
                                 SEC1H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H3.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -509,7 +693,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 }
                             }
                             if (HABITACION.equals("104") == true) {
-                                //REQUEST TABLA HABITACION
+
+                                enfermeras[3][0]=HABITACION;
+                                enfermeras[3][1]=FECHA;
+                                enfermeras[3][2]=HORA;
+                                enfermeras[3][3]=PACIENTE;
+                                enfermeras[3][4]=TIPODELLAMADO;
                                 SEC1H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H4.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -519,7 +708,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 }
                             }
                             if (HABITACION.equals("105") == true) {
-                                //REQUEST TABLA HABITACION
+                                enfermeras[4][0]=HABITACION;
+                                enfermeras[4][1]=FECHA;
+                                enfermeras[4][2]=HORA;
+                                enfermeras[4][3]=PACIENTE;
+                                enfermeras[4][4]=TIPODELLAMADO;
                                 SEC1H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H5.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -529,7 +722,12 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 }
                             }
                             if (HABITACION.equals("106") == true) {
-                                //REQUEST TABLA HABITACION
+
+                                enfermeras[5][0]=HABITACION;
+                                enfermeras[5][1]=FECHA;
+                                enfermeras[5][2]=HORA;
+                                enfermeras[5][3]=PACIENTE;
+                                enfermeras[5][4]=TIPODELLAMADO;
                                 SEC1H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H6.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -570,6 +768,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                         if (TR.equals("SIN RESPUESTA") == true) {
                             if (HABITACION.equals("101") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[6][0]=HABITACION;
+                                enfermeras[6][1]=FECHA;
+                                enfermeras[6][2]=HORA;
+                                enfermeras[6][3]=PACIENTE;
+                                enfermeras[6][4]=TIPODELLAMADO;
                                 SEC2H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H1.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -580,6 +783,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("102") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[7][0]=HABITACION;
+                                enfermeras[7][1]=FECHA;
+                                enfermeras[7][2]=HORA;
+                                enfermeras[7][3]=PACIENTE;
+                                enfermeras[7][4]=TIPODELLAMADO;
                                 SEC2H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H2.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -590,6 +798,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("103") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[8][0]=HABITACION;
+                                enfermeras[8][1]=FECHA;
+                                enfermeras[8][2]=HORA;
+                                enfermeras[8][3]=PACIENTE;
+                                enfermeras[8][4]=TIPODELLAMADO;
                                 SEC2H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H3.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -600,6 +813,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("104") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[9][0]=HABITACION;
+                                enfermeras[9][1]=FECHA;
+                                enfermeras[9][2]=HORA;
+                                enfermeras[9][3]=PACIENTE;
+                                enfermeras[9][4]=TIPODELLAMADO;
                                 SEC2H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H4.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -610,6 +828,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("105") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[10][0]=HABITACION;
+                                enfermeras[10][1]=FECHA;
+                                enfermeras[10][2]=HORA;
+                                enfermeras[10][3]=PACIENTE;
+                                enfermeras[10][4]=TIPODELLAMADO;
                                 SEC2H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H5.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -620,6 +843,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("106") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[11][0]=HABITACION;
+                                enfermeras[11][1]=FECHA;
+                                enfermeras[11][2]=HORA;
+                                enfermeras[11][3]=PACIENTE;
+                                enfermeras[11][4]=TIPODELLAMADO;
                                 SEC2H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H6.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -661,6 +889,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                         if (TR.equals("SIN RESPUESTA") == true) {
                             if (HABITACION.equals("101") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[12][0]=HABITACION;
+                                enfermeras[12][1]=FECHA;
+                                enfermeras[12][2]=HORA;
+                                enfermeras[12][3]=PACIENTE;
+                                enfermeras[12][4]=TIPODELLAMADO;
                                 SEC3H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H1.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -671,6 +904,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("102") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[13][0]=HABITACION;
+                                enfermeras[13][1]=FECHA;
+                                enfermeras[13][2]=HORA;
+                                enfermeras[13][3]=PACIENTE;
+                                enfermeras[13][4]=TIPODELLAMADO;
                                 SEC3H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H2.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -681,6 +919,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("103") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[14][0]=HABITACION;
+                                enfermeras[14][1]=FECHA;
+                                enfermeras[14][2]=HORA;
+                                enfermeras[14][3]=PACIENTE;
+                                enfermeras[14][4]=TIPODELLAMADO;
                                 SEC3H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H3.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -691,6 +934,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("104") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[15][0]=HABITACION;
+                                enfermeras[15][1]=FECHA;
+                                enfermeras[15][2]=HORA;
+                                enfermeras[15][3]=PACIENTE;
+                                enfermeras[15][4]=TIPODELLAMADO;
                                 SEC3H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H4.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -701,6 +949,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("105") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[16][0]=HABITACION;
+                                enfermeras[16][1]=FECHA;
+                                enfermeras[16][2]=HORA;
+                                enfermeras[16][3]=PACIENTE;
+                                enfermeras[16][4]=TIPODELLAMADO;
                                 SEC3H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H5.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -711,6 +964,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("106") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[17][0]=HABITACION;
+                                enfermeras[17][1]=FECHA;
+                                enfermeras[17][2]=HORA;
+                                enfermeras[17][3]=PACIENTE;
+                                enfermeras[17][4]=TIPODELLAMADO;
                                 SEC3H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H6.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -752,6 +1010,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                         if (TR.equals("SIN RESPUESTA") == true) {
                             if (HABITACION.equals("101") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[18][0]=HABITACION;
+                                enfermeras[18][1]=FECHA;
+                                enfermeras[18][2]=HORA;
+                                enfermeras[18][3]=PACIENTE;
+                                enfermeras[18][4]=TIPODELLAMADO;
                                 SEC4H1.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H1.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -762,6 +1025,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("102") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[19][0]=HABITACION;
+                                enfermeras[19][1]=FECHA;
+                                enfermeras[19][2]=HORA;
+                                enfermeras[19][3]=PACIENTE;
+                                enfermeras[19][4]=TIPODELLAMADO;
                                 SEC4H2.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H2.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -772,6 +1040,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("103") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[20][0]=HABITACION;
+                                enfermeras[20][1]=FECHA;
+                                enfermeras[20][2]=HORA;
+                                enfermeras[20][3]=PACIENTE;
+                                enfermeras[20][4]=TIPODELLAMADO;
                                 SEC4H3.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H3.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -782,6 +1055,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("104") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[21][0]=HABITACION;
+                                enfermeras[21][1]=FECHA;
+                                enfermeras[21][2]=HORA;
+                                enfermeras[21][3]=PACIENTE;
+                                enfermeras[21][4]=TIPODELLAMADO;
                                 SEC4H4.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H4.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -792,6 +1070,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("105") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[22][0]=HABITACION;
+                                enfermeras[22][1]=FECHA;
+                                enfermeras[22][2]=HORA;
+                                enfermeras[22][3]=PACIENTE;
+                                enfermeras[22][4]=TIPODELLAMADO;
                                 SEC4H5.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H5.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -802,6 +1085,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                             }
                             if (HABITACION.equals("106") == true) {
                                 //REQUEST TABLA HABITACION
+                                enfermeras[23][0]=HABITACION;
+                                enfermeras[23][1]=FECHA;
+                                enfermeras[23][2]=HORA;
+                                enfermeras[23][3]=PACIENTE;
+                                enfermeras[23][4]=TIPODELLAMADO;
                                 SEC4H6.setText("HABITACION: " + HABITACION + "\nPACIENTE: " + PACIENTE + "\nFECHA: " + FECHA + "\nHORA: " + HORA + "\nMEDICO: " + MEDICO + "\n" + PAGO);
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H6.setBackgroundColor(Color.parseColor("#FFC107"));
@@ -1106,6 +1394,27 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             }
         });
         handler.postDelayed(runnable, 1500);
+    }
+    public void insetenfermera(){
+        //http://localhost/BDEJEMPLOS/INSERTENFERMERA.php?HABITACION=105&PACIENTE=alejandro%20alejandro%20alejandro%20de%20castilla&FECHA=19/03/2020&HORA=17:18:35&TIPODELLAMADO=EMERGENCIA&NOMBREENFERMERA=ABCD
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTENFERMERA.php?HABITACION="+HABITACION+"&PACIENTE="+PACIENTE+"&FECHA="+FECHA+"&HORA="+HORA+"&TIPODELLAMADO="+TIPODELLAMADO+"&NOMBREENFERMERA="+NOMBREENFERMERA;
+                url1 = url1.replace(" ", "%20");
+                StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }) {
+                };
+                MyRequestQueue.add(MyStringRequest);
+            }
+        }, 200);
     }
 
 }
