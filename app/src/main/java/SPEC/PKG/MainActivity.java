@@ -41,24 +41,18 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     String url1,PLAYER;
     String FECHA="N/A", HORA="N/A", TURNO="N/A", HABITACION="N/A",TIPODELLAMADO="N/A", FOLIODISPOSITIVO="N/A",ENFERMERA="N/A",TR="N/A",ESTACION="N/A",SECCION="N/A",AUDIO="N/A",PACIENTE= "N/A" ,MEDICO="N/A",PAGO="N/A";
     String CONTRASENA="N/A", NOMBREENFERMERA="N/A",CONTRASENAINSERTADA="N/A",SECCIONINS="N/A",SECCIONOUT="N/A",USUARIOINS="N/A",USUARIOUT="N/A",AVISO="";
-
     private TextView SEC1,SEC2,SEC3,SEC4;
     String SEC1S="SIN ENFERMERA", SEC2S="SIN ENFERMERA", SEC3S="SIN ENFERMERA", SEC4S="SIN ENFERMERA";
     private TextView SEC1H1,SEC1H2,SEC1H3,SEC1H4,SEC1H5,SEC1H6;
     private TextView SEC2H1,SEC2H2,SEC2H3,SEC2H4,SEC2H5,SEC2H6;
     private TextView SEC3H1,SEC3H2,SEC3H3,SEC3H4,SEC3H5,SEC3H6;
     private TextView SEC4H1,SEC4H2,SEC4H3,SEC4H4,SEC4H5,SEC4H6;
-
     String []sesiones={"N/A","N/A","N/A","N/A"};
     String [][]enfermeras= new String[24][5];
-
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date date = new Date();
     String D0, D1,HD,H1;
-
-
-
     RequestQueue MyRequestQueue;
     RequestQueue request1;////////////////////////////////////////////////////////////json webservices/////////////////
     Usuarios consultaUsuario;
@@ -68,8 +62,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     private String outputFile =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/Fonts/" + FOLIODISPOSITIVO + "Grabacion.mp3";
     final Handler handler = new Handler();//////////////////////////////////////////////////////////////////////////////////////////DELAY
     Timer tiempo=new Timer();
-
-
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -81,7 +73,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
         }
-
 
         Button SERVICIO = (Button)findViewById(R.id.ser);
         final Button login = (Button) findViewById(R.id.ini);
@@ -596,7 +587,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             }
         });
     }
-
     public void consulEvento() {
         a=1;
         D0 = dateFormat.format(date);
@@ -613,7 +603,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);
         request1.add(jsonrequest);
     }
-    @Override
     public void onResponse(JSONObject response) {
         if(a==1) {
             consulta = response.optJSONArray("usuario");
@@ -1216,7 +1205,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             a = 0;
         }
     }
-    @Override
     public void onErrorResponse (VolleyError error){
          alertaBasededatos();
     }
@@ -1262,7 +1250,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         CONTRASENA = consultaUsuario.getCONTRASENA();
         NOMBREENFERMERA = consultaUsuario.getNOMBREENEFERMERA();
     }
-
     public void login() {
         login login = new login();
         login.show(getSupportFragmentManager(), "INICIO SESION");
@@ -1275,7 +1262,6 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         logout logout = new logout();
         logout.show(getSupportFragmentManager(), "CERRAR SESION");
     }
-    @Override
     public void applyTexts(String usuario, String contraseña, String seccion) {
         a=2;
         USUARIOINS=usuario;
