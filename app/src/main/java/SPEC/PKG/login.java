@@ -44,9 +44,6 @@ public class login extends AppCompatDialogFragment {
         return builder.create();
     }
 
-
-
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

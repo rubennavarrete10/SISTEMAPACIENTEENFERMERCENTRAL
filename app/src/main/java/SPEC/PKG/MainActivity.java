@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -35,10 +36,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity<HORA1> extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>, login.Datoslogin, loginservicio.Datoslogin, logout.Datoslogout {
+public class MainActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>, login.Datoslogin, loginservicio.Datoslogin, logout.Datoslogout {
 
     int i,a=0,b1=0,b2=0,b3=0,b4=0,c=0;
-    String url1,PLAYER;
+    String ip = "192.168.43.226";
+    String url1;
     String FECHA="N/A", HORA="N/A", TURNO="N/A", HABITACION="N/A",TIPODELLAMADO="N/A", FOLIODISPOSITIVO="N/A",ENFERMERA="N/A",TR="N/A",ESTACION="N/A",SECCION="N/A",AUDIO="N/A",PACIENTE= "N/A" ,MEDICO="N/A",PAGO="N/A";
     String CONTRASENA="N/A", NOMBREENFERMERA="N/A",CONTRASENAINSERTADA="N/A",SECCIONINS="N/A",SECCIONOUT="N/A",USUARIOINS="N/A",USUARIOUT="N/A",AVISO="";
     private TextView SEC1,SEC2,SEC3,SEC4;
@@ -74,9 +76,9 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
         }
 
-        Button SERVICIO = (Button)findViewById(R.id.ser);
-        final Button login = (Button) findViewById(R.id.ini);
-        final Button logOut =(Button) findViewById(R.id.out);
+        ImageButton SERVICIO = (ImageButton)findViewById(R.id.ser);
+        final ImageButton login = (ImageButton) findViewById(R.id.ini);
+        final ImageButton logOut =(ImageButton) findViewById(R.id.out);
         referenciasobjetos();
 ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
         TimerTask ciclo = new TimerTask() {
@@ -88,7 +90,8 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                 SEC4S=SEC4.getText().toString();
                 consulEvento();
             }
-        };tiempo.schedule(ciclo,100,1000);
+        };tiempo.schedule(ciclo,500,1000);
+        //consulEvento();
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,94 +116,97 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     private void referenciasobjetos() {
         request1 = Volley.newRequestQueue(this);
         MyRequestQueue = Volley.newRequestQueue(this);
-        SEC1=(TextView)findViewById(R.id.SEC1SINENFE);
-        SEC2=(TextView)findViewById(R.id.SEC2SINENFE);
-        SEC3=(TextView)findViewById(R.id.SEC3SINENFE);
-        SEC4=(TextView)findViewById(R.id.SEC4SINENFE);
+        int a=0;
+        if(a==0) {
+            SEC1 = (TextView) findViewById(R.id.SEC1SINENFE);
+            SEC2 = (TextView) findViewById(R.id.SEC2SINENFE);
+            SEC3 = (TextView) findViewById(R.id.SEC3SINENFE);
+            SEC4 = (TextView) findViewById(R.id.SEC4SINENFE);
 
-        SEC1H1 = (TextView) findViewById(R.id.sec1h1);
-        SEC1H2 = (TextView) findViewById(R.id.sec1h2);
-        SEC1H3 = (TextView) findViewById(R.id.sec1h3);
-        SEC1H4 = (TextView) findViewById(R.id.sec1h4);
-        SEC1H5 = (TextView) findViewById(R.id.sec1h5);
-        SEC1H6 = (TextView) findViewById(R.id.sec1h6);
+            SEC1H1 = (TextView) findViewById(R.id.sec1h1);
+            SEC1H2 = (TextView) findViewById(R.id.sec1h2);
+            SEC1H3 = (TextView) findViewById(R.id.sec1h3);
+            SEC1H4 = (TextView) findViewById(R.id.sec1h4);
+            SEC1H5 = (TextView) findViewById(R.id.sec1h5);
+            SEC1H6 = (TextView) findViewById(R.id.sec1h6);
 
-        SEC2H1 = (TextView) findViewById(R.id.sec2h1);
-        SEC2H2 = (TextView) findViewById(R.id.sec2h2);
-        SEC2H3 = (TextView) findViewById(R.id.sec2h3);
-        SEC2H4 = (TextView) findViewById(R.id.sec2h4);
-        SEC2H5 = (TextView) findViewById(R.id.sec2h5);
-        SEC2H6 = (TextView) findViewById(R.id.sec2h6);
+            SEC2H1 = (TextView) findViewById(R.id.sec2h1);
+            SEC2H2 = (TextView) findViewById(R.id.sec2h2);
+            SEC2H3 = (TextView) findViewById(R.id.sec2h3);
+            SEC2H4 = (TextView) findViewById(R.id.sec2h4);
+            SEC2H5 = (TextView) findViewById(R.id.sec2h5);
+            SEC2H6 = (TextView) findViewById(R.id.sec2h6);
 
-        SEC3H1 = (TextView) findViewById(R.id.sec3h1);
-        SEC3H2 = (TextView) findViewById(R.id.sec3h2);
-        SEC3H3 = (TextView) findViewById(R.id.sec3h3);
-        SEC3H4 = (TextView) findViewById(R.id.sec3h4);
-        SEC3H5 = (TextView) findViewById(R.id.sec3h5);
-        SEC3H6 = (TextView) findViewById(R.id.sec3h6);
+            SEC3H1 = (TextView) findViewById(R.id.sec3h1);
+            SEC3H2 = (TextView) findViewById(R.id.sec3h2);
+            SEC3H3 = (TextView) findViewById(R.id.sec3h3);
+            SEC3H4 = (TextView) findViewById(R.id.sec3h4);
+            SEC3H5 = (TextView) findViewById(R.id.sec3h5);
+            SEC3H6 = (TextView) findViewById(R.id.sec3h6);
 
-        SEC4H1 = (TextView) findViewById(R.id.sec4h1);
-        SEC4H2 = (TextView) findViewById(R.id.sec4h2);
-        SEC4H3 = (TextView) findViewById(R.id.sec4h3);
-        SEC4H4 = (TextView) findViewById(R.id.sec4h4);
-        SEC4H5 = (TextView) findViewById(R.id.sec4h5);
-        SEC4H6 = (TextView) findViewById(R.id.sec4h6);
+            SEC4H1 = (TextView) findViewById(R.id.sec4h1);
+            SEC4H2 = (TextView) findViewById(R.id.sec4h2);
+            SEC4H3 = (TextView) findViewById(R.id.sec4h3);
+            SEC4H4 = (TextView) findViewById(R.id.sec4h4);
+            SEC4H5 = (TextView) findViewById(R.id.sec4h5);
+            SEC4H6 = (TextView) findViewById(R.id.sec4h6);
 
-        SEC1H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC1H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC1H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC1H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC1H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC1H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC1H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
 
-        SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
 
-        SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
 
-        SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
-        SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
+            SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
 
-        SEC1H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC1H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC1H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC1H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC1H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC1H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+            SEC1H1.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC1H2.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC1H3.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC1H4.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC1H5.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC1H6.setBackgroundColor(Color.parseColor("#8BC34A"));
 
-        SEC2H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC2H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC2H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC2H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC2H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC2H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+            SEC2H1.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC2H2.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC2H3.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC2H4.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC2H5.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC2H6.setBackgroundColor(Color.parseColor("#8BC34A"));
 
-        SEC3H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC3H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC3H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC3H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC3H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC3H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+            SEC3H1.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC3H2.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC3H3.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC3H4.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC3H5.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC3H6.setBackgroundColor(Color.parseColor("#8BC34A"));
 
-        SEC4H1.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC4H2.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC4H3.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC4H4.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
-        SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+            SEC4H1.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC4H2.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC4H3.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC4H4.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC4H5.setBackgroundColor(Color.parseColor("#8BC34A"));
+            SEC4H6.setBackgroundColor(Color.parseColor("#8BC34A"));
+        }
 
         SEC1H1.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -271,7 +277,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             public void onClick(View view) {
                 if (SEC1S.equals("SIN ENFERMERA") == false) {
                     //play();
-                    Toast.makeText(getApplicationContext(), "1-5", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ""+enfermeras[4][4]+" ASIGANDA", Toast.LENGTH_SHORT).show();
                     HABITACION= enfermeras[4][0];
                     FECHA=enfermeras[4][1];
                     HORA=enfermeras[4][2];
@@ -591,14 +597,17 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         a=1;
         D0 = dateFormat.format(date);
         D1 = dateFormat.format(date);
+
         HD = D0.substring(0,2);
         H1 = D0.substring(2);
-        int HDI=Integer.parseInt(HD);
+        int HDI =Integer.parseInt(HD);
         HDI=HDI-1;///////// 1 = 2 DIAS EN LA COMPARACION///
         HD = String.valueOf(HDI);
+        if(HDI < 10){
+            HD="0"+HD;
+        }
         D0 = HD+H1;
-
-        url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAEVENTO.php?H1="+D0+"&H2="+D1;
+        url1 = "http://" + ip + "/BDEJEMPLOS/CONSULTAEVENTO.php?H1="+D0+"&H2="+D1;
         url1 = url1.replace(" ", "%20");
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);
         request1.add(jsonrequest);
@@ -648,7 +657,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H1.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H1.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                                 //HACER ARRAY PARA ALMACENAR LOS AUDIOS Y REPRODUCIRLOS
@@ -665,7 +674,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H2.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H2.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -680,7 +689,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H3.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H3.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -695,7 +704,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H4.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H4.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -709,7 +718,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H5.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H5.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -724,7 +733,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC1H6.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC1H6.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -732,33 +741,33 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     }
                     if (SECCION.equals("2") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("107") == true) {
                                 SEC2H1.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("108") == true) {
                                 SEC2H2.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("109") == true) {
                                 SEC2H3.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("110") == true) {
                                 SEC2H4.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("111") == true) {
                                 SEC2H5.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("112") == true) {
                                 SEC2H6.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
                         if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("107") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[6][0]=HABITACION;
                                 enfermeras[6][1]=FECHA;
@@ -769,11 +778,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H1.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H1.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("108") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[7][0]=HABITACION;
                                 enfermeras[7][1]=FECHA;
@@ -784,11 +793,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H2.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H2.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("109") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[8][0]=HABITACION;
                                 enfermeras[8][1]=FECHA;
@@ -799,11 +808,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H3.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H3.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("110") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[9][0]=HABITACION;
                                 enfermeras[9][1]=FECHA;
@@ -814,11 +823,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H4.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H4.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("111") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[10][0]=HABITACION;
                                 enfermeras[10][1]=FECHA;
@@ -829,11 +838,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H5.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H5.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("112") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[11][0]=HABITACION;
                                 enfermeras[11][1]=FECHA;
@@ -844,7 +853,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC2H6.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC2H6.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -853,33 +862,33 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     }
                     if (SECCION.equals("3") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("113") == true) {
                                 SEC3H1.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("114") == true) {
                                 SEC3H2.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("115") == true) {
                                 SEC3H3.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("116") == true) {
                                 SEC3H4.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("117") == true) {
                                 SEC3H5.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("118") == true) {
                                 SEC3H6.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
                         if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("113") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[12][0]=HABITACION;
                                 enfermeras[12][1]=FECHA;
@@ -890,11 +899,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H1.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H1.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("114") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[13][0]=HABITACION;
                                 enfermeras[13][1]=FECHA;
@@ -905,11 +914,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H2.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H2.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("115") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[14][0]=HABITACION;
                                 enfermeras[14][1]=FECHA;
@@ -920,11 +929,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H3.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H3.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("116") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[15][0]=HABITACION;
                                 enfermeras[15][1]=FECHA;
@@ -935,11 +944,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H4.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H4.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("117") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[16][0]=HABITACION;
                                 enfermeras[16][1]=FECHA;
@@ -950,11 +959,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H5.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H5.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("118") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[17][0]=HABITACION;
                                 enfermeras[17][1]=FECHA;
@@ -965,42 +974,41 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC3H6.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC3H6.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-
                         }
                     }
                     if (SECCION.equals("4") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("119") == true) {
                                 SEC4H1.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("120") == true) {
                                 SEC4H2.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("121") == true) {
                                 SEC4H3.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("122") == true) {
                                 SEC4H4.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("123") == true) {
                                 SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("124") == true) {
                                 SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
                                 SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
                         if (TR.equals("SIN RESPUESTA") == true) {
-                            if (HABITACION.equals("101") == true) {
+                            if (HABITACION.equals("119") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[18][0]=HABITACION;
                                 enfermeras[18][1]=FECHA;
@@ -1011,11 +1019,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H1.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H1.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("102") == true) {
+                            if (HABITACION.equals("120") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[19][0]=HABITACION;
                                 enfermeras[19][1]=FECHA;
@@ -1026,11 +1034,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H2.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H2.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("103") == true) {
+                            if (HABITACION.equals("121") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[20][0]=HABITACION;
                                 enfermeras[20][1]=FECHA;
@@ -1041,11 +1049,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H3.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H3.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("104") == true) {
+                            if (HABITACION.equals("122") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[21][0]=HABITACION;
                                 enfermeras[21][1]=FECHA;
@@ -1056,11 +1064,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H4.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H4.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("105") == true) {
+                            if (HABITACION.equals("123") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[22][0]=HABITACION;
                                 enfermeras[22][1]=FECHA;
@@ -1071,11 +1079,11 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H5.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H5.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
-                            if (HABITACION.equals("106") == true) {
+                            if (HABITACION.equals("124") == true) {
                                 //REQUEST TABLA HABITACION
                                 enfermeras[23][0]=HABITACION;
                                 enfermeras[23][1]=FECHA;
@@ -1086,7 +1094,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                                 if (TIPODELLAMADO.equals("ASISTENCIA") == true) {
                                     SEC4H6.setBackgroundColor(Color.parseColor("#FFC107"));
                                 }
-                                if (TIPODELLAMADO.equals("EMERGENCIA") == true) {
+                                if (TIPODELLAMADO.equals("EMERGENCIA") || TIPODELLAMADO.equals("EMERGENCIA BANO")  == true) {
                                     SEC4H6.setBackgroundColor(Color.parseColor("#B71C1C"));
                                 }
                             }
@@ -1095,7 +1103,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
                     }
                 }
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "ERROR CONSILTA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SIN CONSULTAS PENDIENTES", Toast.LENGTH_SHORT).show();
             }
             a=0;
         }
@@ -1104,7 +1112,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
+                    url1 = "http://" + ip + "/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
                     url1 = url1.replace(" ", "%20");
                     StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
                         @Override
@@ -1267,7 +1275,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         USUARIOINS=usuario;
         CONTRASENAINSERTADA=contraseña;
         SECCIONINS=seccion;
-        url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
+        url1 = "http://" + ip + "/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
         url1 = url1.replace(" ", "%20");
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);
         request1.add(jsonrequest);
@@ -1277,7 +1285,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         USUARIOUT=usuario;
         CONTRASENAINSERTADA=contraseña;
         SECCIONINS=seccion;
-        url1 = "http://192.168.0.16/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
+        url1 = "http://" + ip + "/BDEJEMPLOS/CONSULTAENFERMERAS.php?USER="+usuario;
         url1 = url1.replace(" ", "%20");
         jsonrequest = new JsonObjectRequest(Request.Method.POST, url1, null, this, this);
         request1.add(jsonrequest);
@@ -1287,7 +1295,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
     }
     public void applyTexts1(String usuario, String contraseña) {
 
-        if (usuario.equals("USER") == true && contraseña.equals("1234") == true) {
+        if (usuario.equals("user") == true && contraseña.equals("1234") == true) {
             Intent intent = new Intent(getApplicationContext(), modificarActivity.class);
             startActivity(intent);
             Toast.makeText(getApplicationContext(), "SESION SERVICIO INICIADA", Toast.LENGTH_SHORT).show();
@@ -1388,7 +1396,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTENFERMERA.php?HABITACION="+HABITACION+"&PACIENTE="+PACIENTE+"&FECHA="+FECHA+"&HORA="+HORA+"&TIPODELLAMADO="+TIPODELLAMADO+"&NOMBREENFERMERA="+NOMBREENFERMERA;
+                url1 = "http://" + ip + "/BDEJEMPLOS/INSERTENFERMERA.php?HABITACION="+HABITACION+"&PACIENTE="+PACIENTE+"&FECHA="+FECHA+"&HORA="+HORA+"&TIPODELLAMADO="+TIPODELLAMADO+"&NOMBREENFERMERA="+NOMBREENFERMERA;
                 url1 = url1.replace(" ", "%20");
                 StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
                     @Override
@@ -1410,19 +1418,7 @@ public class MainActivity<HORA1> extends AppCompatActivity implements Response.E
 /* handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    url1 = "http://192.168.0.16/BDEJEMPLOS/INSERTNUEVASECCION.php?SECCION="+SECCIONINS+"&NOMBREENFERMERA="+NOMBREENFERMERA;
-                    url1 = url1.replace(" ", "%20");
-                    StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                        }
-                    }) {
-                    };
-                    MyRequestQueue.add(MyStringRequest);
+
                 }
             }, 200);
  */

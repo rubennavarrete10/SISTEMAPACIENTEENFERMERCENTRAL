@@ -5,18 +5,19 @@
     android:id="@+id/lienarmain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_dark"
+    android:background="#1D319F"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="70px"
+        android:layout_width="match_parent"
+        android:layout_height="90px"
         android:text="CENTRAL DE ENFERMERAS"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_marginBottom="15px"
-        android:textColor="@android:color/black"
+        android:background="#041747"
+        android:textColor="@android:color/white"
         android:textSize="65px" />
 
     <LinearLayout
@@ -31,6 +32,7 @@
             android:layout_width="250px"
             android:layout_height="wrap_content"
             android:text="SECCION 1"
+            android:textColor="@android:color/white"
             android:textSize="35px"/>
 
         <TextView
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40px"
             android:text="SIN ENFERMERA"
+            android:textColor="@android:color/white"
             android:textSize="35px"/>
 
         <TextView
@@ -46,11 +49,13 @@
             android:layout_width="250px"
             android:layout_height="wrap_content"
             android:text="SECCION 2"
+            android:textColor="@android:color/white"
             android:textSize="35px"/>
 
         <TextView
             android:id="@+id/SEC2SINENFE"
             android:layout_width="650px"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:text="SIN ENFERMERA"
             android:textSize="35px"/>
@@ -228,6 +233,7 @@
             android:layout_width="250px"
             android:layout_height="wrap_content"
             android:text="SECCION 3"
+            android:textColor="@android:color/white"
             android:textSize="35px"/>
 
         <TextView
@@ -235,12 +241,14 @@
             android:layout_width="650px"
             android:layout_height="wrap_content"
             android:text="SIN ENFERMERA"
+            android:textColor="@android:color/white"
             android:layout_marginRight="40px"
             android:textSize="35px"/>
 
         <TextView
             android:id="@+id/textView14"
             android:layout_width="250px"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:text="SECCION 4"
             android:textSize="35px"/>
@@ -248,6 +256,7 @@
         <TextView
             android:id="@+id/SEC4SINENFE"
             android:layout_width="650px"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:text="SIN ENFERMERA"
             android:textSize="35px"/>
@@ -419,6 +428,7 @@
         android:id="@+id/LIN3"
         android:layout_width="1844px"
         android:layout_height="120px"
+        android:layout_marginTop="10px"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -429,33 +439,42 @@
             android:text="ESTACION 1"
             android:textSize="40px"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:layout_gravity="center"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/ser"
             android:layout_width="250px"
             android:layout_height="120px"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/configuracion"
             android:text="SERVICIO"
             android:textSize="35px"
             android:layout_gravity="center"
             android:layout_marginRight="444px"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/ini"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_gravity="center"
             android:textSize="35px"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/login"
             android:layout_marginRight="100px"
             android:text="INICIAR SESION" />
 
-        <Button
+        <ImageButton
             android:id="@+id/out"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_gravity="center"
             android:textSize="35px"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/logout"
             android:text="CERRAR SESION" />
 
     </LinearLayout>
