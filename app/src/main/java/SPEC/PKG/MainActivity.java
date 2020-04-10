@@ -39,7 +39,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>, login.Datoslogin, loginservicio.Datoslogin, logout.Datoslogout {
 
     int i,a=0,b1=0,b2=0,b3=0,b4=0,c=0;
-    String ip = "192.168.43.226";
+    String ip = "192.168.0.16";
     String url1;
     String FECHA="N/A", HORA="N/A", TURNO="N/A", HABITACION="N/A",TIPODELLAMADO="N/A", FOLIODISPOSITIVO="N/A",ENFERMERA="N/A",TR="N/A",ESTACION="N/A",SECCION="N/A",AUDIO="N/A",PACIENTE= "N/A" ,MEDICO="N/A",PAGO="N/A";
     String CONTRASENA="N/A", NOMBREENFERMERA="N/A",CONTRASENAINSERTADA="N/A",SECCIONINS="N/A",SECCIONOUT="N/A",USUARIOINS="N/A",USUARIOUT="N/A",AVISO="";
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     private TextView SEC4H1,SEC4H2,SEC4H3,SEC4H4,SEC4H5,SEC4H6;
     String []sesiones={"N/A","N/A","N/A","N/A"};
     String [][]enfermeras= new String[24][5];
-
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Date date = new Date();
     String D0, D1,HD,H1;
@@ -70,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.inicializador);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContentView(R.layout.activity_main);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
@@ -91,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                 consulEvento();
             }
         };tiempo.schedule(ciclo,500,1000);
-        //consulEvento();
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     loginSer();tiempo.cancel();tiempo.purge();
                 }
             });
+            }
+        }, 4000);
      }
     ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
     private void referenciasobjetos() {
@@ -206,392 +211,392 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
             SEC4H4.setBackgroundColor(Color.parseColor("#8BC34A"));
             SEC4H5.setBackgroundColor(Color.parseColor("#8BC34A"));
             SEC4H6.setBackgroundColor(Color.parseColor("#8BC34A"));
-        }
 
-        SEC1H1.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-1", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[0][0];
-                    FECHA=enfermeras[0][1];
-                    HORA=enfermeras[0][2];
-                    PACIENTE=enfermeras[0][3];
-                    TIPODELLAMADO=enfermeras[0][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            SEC1H1.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "1-1", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[0][0];
+                        FECHA = enfermeras[0][1];
+                        HORA = enfermeras[0][2];
+                        PACIENTE = enfermeras[0][3];
+                        TIPODELLAMADO = enfermeras[0][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC1H2.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-2", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[1][0];
-                    FECHA=enfermeras[1][1];
-                    HORA=enfermeras[1][2];
-                    PACIENTE=enfermeras[1][3];
-                    TIPODELLAMADO=enfermeras[1][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            });
+            SEC1H2.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "1-2", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[1][0];
+                        FECHA = enfermeras[1][1];
+                        HORA = enfermeras[1][2];
+                        PACIENTE = enfermeras[1][3];
+                        TIPODELLAMADO = enfermeras[1][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC1H3.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-3", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[2][0];
-                    FECHA=enfermeras[2][1];
-                    HORA=enfermeras[2][2];
-                    PACIENTE=enfermeras[2][3];
-                    TIPODELLAMADO=enfermeras[2][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            });
+            SEC1H3.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "1-3", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[2][0];
+                        FECHA = enfermeras[2][1];
+                        HORA = enfermeras[2][2];
+                        PACIENTE = enfermeras[2][3];
+                        TIPODELLAMADO = enfermeras[2][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC1H4.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-4", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[3][0];
-                    FECHA=enfermeras[3][1];
-                    HORA=enfermeras[3][2];
-                    PACIENTE=enfermeras[3][3];
-                    TIPODELLAMADO=enfermeras[3][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            });
+            SEC1H4.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "1-4", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[3][0];
+                        FECHA = enfermeras[3][1];
+                        HORA = enfermeras[3][2];
+                        PACIENTE = enfermeras[3][3];
+                        TIPODELLAMADO = enfermeras[3][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC1H5.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), ""+enfermeras[4][4]+" ASIGANDA", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[4][0];
-                    FECHA=enfermeras[4][1];
-                    HORA=enfermeras[4][2];
-                    PACIENTE=enfermeras[4][3];
-                    TIPODELLAMADO=enfermeras[4][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            });
+            SEC1H5.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "" + enfermeras[4][4] + " ASIGANDA", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[4][0];
+                        FECHA = enfermeras[4][1];
+                        HORA = enfermeras[4][2];
+                        PACIENTE = enfermeras[4][3];
+                        TIPODELLAMADO = enfermeras[4][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC1H6.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC1S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "1-6", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[5][0];
-                    FECHA=enfermeras[5][1];
-                    HORA=enfermeras[5][2];
-                    PACIENTE=enfermeras[5][3];
-                    TIPODELLAMADO=enfermeras[5][4];
-                    NOMBREENFERMERA=SEC1.getText().toString();
-                    insetenfermera();
+            });
+            SEC1H6.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC1S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "1-6", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[5][0];
+                        FECHA = enfermeras[5][1];
+                        HORA = enfermeras[5][2];
+                        PACIENTE = enfermeras[5][3];
+                        TIPODELLAMADO = enfermeras[5][4];
+                        NOMBREENFERMERA = SEC1.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC2H1.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "2-1", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[6][0];
-                    FECHA=enfermeras[6][1];
-                    HORA=enfermeras[6][2];
-                    PACIENTE=enfermeras[6][3];
-                    TIPODELLAMADO=enfermeras[6][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
+            });
+            SEC2H1.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "2-1", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[6][0];
+                        FECHA = enfermeras[6][1];
+                        HORA = enfermeras[6][2];
+                        PACIENTE = enfermeras[6][3];
+                        TIPODELLAMADO = enfermeras[6][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC2H2.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[7][0];
-                    FECHA=enfermeras[7][1];
-                    HORA=enfermeras[7][2];
-                    PACIENTE=enfermeras[7][3];
-                    TIPODELLAMADO=enfermeras[7][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
+            });
+            SEC2H2.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "2-2", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[7][0];
+                        FECHA = enfermeras[7][1];
+                        HORA = enfermeras[7][2];
+                        PACIENTE = enfermeras[7][3];
+                        TIPODELLAMADO = enfermeras[7][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC2H3.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "2-3", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[8][0];
-                    FECHA=enfermeras[8][1];
-                    HORA=enfermeras[8][2];
-                    PACIENTE=enfermeras[8][3];
-                    TIPODELLAMADO=enfermeras[8][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
+            });
+            SEC2H3.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "2-3", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[8][0];
+                        FECHA = enfermeras[8][1];
+                        HORA = enfermeras[8][2];
+                        PACIENTE = enfermeras[8][3];
+                        TIPODELLAMADO = enfermeras[8][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC2H4.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    HABITACION= enfermeras[9][0];
-                    FECHA=enfermeras[9][1];
-                    HORA=enfermeras[9][2];
-                    PACIENTE=enfermeras[9][3];
-                    TIPODELLAMADO=enfermeras[9][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
-                    Toast.makeText(getApplicationContext(), "2-4"+HABITACION+FECHA+HORA+PACIENTE+TIPODELLAMADO, Toast.LENGTH_SHORT).show();
+            });
+            SEC2H4.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        HABITACION = enfermeras[9][0];
+                        FECHA = enfermeras[9][1];
+                        HORA = enfermeras[9][2];
+                        PACIENTE = enfermeras[9][3];
+                        TIPODELLAMADO = enfermeras[9][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                        Toast.makeText(getApplicationContext(), "2-4" + HABITACION + FECHA + HORA + PACIENTE + TIPODELLAMADO, Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
-        SEC2H5.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "2-5", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[10][0];
-                    FECHA=enfermeras[10][1];
-                    HORA=enfermeras[10][2];
-                    PACIENTE=enfermeras[10][3];
-                    TIPODELLAMADO=enfermeras[10][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
+            });
+            SEC2H5.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "2-5", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[10][0];
+                        FECHA = enfermeras[10][1];
+                        HORA = enfermeras[10][2];
+                        PACIENTE = enfermeras[10][3];
+                        TIPODELLAMADO = enfermeras[10][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC2H6.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC2S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "2-6", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[11][0];
-                    FECHA=enfermeras[11][1];
-                    HORA=enfermeras[11][2];
-                    PACIENTE=enfermeras[11][3];
-                    TIPODELLAMADO=enfermeras[11][4];
-                    NOMBREENFERMERA=SEC2.getText().toString();
-                    insetenfermera();
+            });
+            SEC2H6.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC2S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "2-6", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[11][0];
+                        FECHA = enfermeras[11][1];
+                        HORA = enfermeras[11][2];
+                        PACIENTE = enfermeras[11][3];
+                        TIPODELLAMADO = enfermeras[11][4];
+                        NOMBREENFERMERA = SEC2.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H1.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-1", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[12][0];
-                    FECHA=enfermeras[12][1];
-                    HORA=enfermeras[12][2];
-                    PACIENTE=enfermeras[12][3];
-                    TIPODELLAMADO=enfermeras[12][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H1.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-1", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[12][0];
+                        FECHA = enfermeras[12][1];
+                        HORA = enfermeras[12][2];
+                        PACIENTE = enfermeras[12][3];
+                        TIPODELLAMADO = enfermeras[12][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H2.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[13][0];
-                    FECHA=enfermeras[13][1];
-                    HORA=enfermeras[13][2];
-                    PACIENTE=enfermeras[13][3];
-                    TIPODELLAMADO=enfermeras[13][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H2.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-2", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[13][0];
+                        FECHA = enfermeras[13][1];
+                        HORA = enfermeras[13][2];
+                        PACIENTE = enfermeras[13][3];
+                        TIPODELLAMADO = enfermeras[13][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H3.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-3", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[14][0];
-                    FECHA=enfermeras[14][1];
-                    HORA=enfermeras[14][2];
-                    PACIENTE=enfermeras[14][3];
-                    TIPODELLAMADO=enfermeras[14][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H3.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-3", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[14][0];
+                        FECHA = enfermeras[14][1];
+                        HORA = enfermeras[14][2];
+                        PACIENTE = enfermeras[14][3];
+                        TIPODELLAMADO = enfermeras[14][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H4.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-4", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[15][0];
-                    FECHA=enfermeras[15][1];
-                    HORA=enfermeras[15][2];
-                    PACIENTE=enfermeras[15][3];
-                    TIPODELLAMADO=enfermeras[15][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H4.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-4", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[15][0];
+                        FECHA = enfermeras[15][1];
+                        HORA = enfermeras[15][2];
+                        PACIENTE = enfermeras[15][3];
+                        TIPODELLAMADO = enfermeras[15][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H5.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-5", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[16][0];
-                    FECHA=enfermeras[16][1];
-                    HORA=enfermeras[16][2];
-                    PACIENTE=enfermeras[16][3];
-                    TIPODELLAMADO=enfermeras[16][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H5.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-5", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[16][0];
+                        FECHA = enfermeras[16][1];
+                        HORA = enfermeras[16][2];
+                        PACIENTE = enfermeras[16][3];
+                        TIPODELLAMADO = enfermeras[16][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC3H6.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC3S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "3-6", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[17][0];
-                    FECHA=enfermeras[17][1];
-                    HORA=enfermeras[17][2];
-                    PACIENTE=enfermeras[17][3];
-                    TIPODELLAMADO=enfermeras[17][4];
-                    NOMBREENFERMERA=SEC3.getText().toString();
-                    insetenfermera();
+            });
+            SEC3H6.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC3S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "3-6", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[17][0];
+                        FECHA = enfermeras[17][1];
+                        HORA = enfermeras[17][2];
+                        PACIENTE = enfermeras[17][3];
+                        TIPODELLAMADO = enfermeras[17][4];
+                        NOMBREENFERMERA = SEC3.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H1.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-1", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[18][0];
-                    FECHA=enfermeras[18][1];
-                    HORA=enfermeras[18][2];
-                    PACIENTE=enfermeras[18][3];
-                    TIPODELLAMADO=enfermeras[18][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H1.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-1", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[18][0];
+                        FECHA = enfermeras[18][1];
+                        HORA = enfermeras[18][2];
+                        PACIENTE = enfermeras[18][3];
+                        TIPODELLAMADO = enfermeras[18][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H2.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[19][0];
-                    FECHA=enfermeras[19][1];
-                    HORA=enfermeras[19][2];
-                    PACIENTE=enfermeras[19][3];
-                    TIPODELLAMADO=enfermeras[19][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H2.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-2", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[19][0];
+                        FECHA = enfermeras[19][1];
+                        HORA = enfermeras[19][2];
+                        PACIENTE = enfermeras[19][3];
+                        TIPODELLAMADO = enfermeras[19][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H3.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-3", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[20][0];
-                    FECHA=enfermeras[20][1];
-                    HORA=enfermeras[20][2];
-                    PACIENTE=enfermeras[20][3];
-                    TIPODELLAMADO=enfermeras[20][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H3.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-3", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[20][0];
+                        FECHA = enfermeras[20][1];
+                        HORA = enfermeras[20][2];
+                        PACIENTE = enfermeras[20][3];
+                        TIPODELLAMADO = enfermeras[20][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H4.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-4", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[21][0];
-                    FECHA=enfermeras[21][1];
-                    HORA=enfermeras[21][2];
-                    PACIENTE=enfermeras[21][3];
-                    TIPODELLAMADO=enfermeras[21][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H4.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-4", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[21][0];
+                        FECHA = enfermeras[21][1];
+                        HORA = enfermeras[21][2];
+                        PACIENTE = enfermeras[21][3];
+                        TIPODELLAMADO = enfermeras[21][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H5.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-5", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[22][0];
-                    FECHA=enfermeras[22][1];
-                    HORA=enfermeras[22][2];
-                    PACIENTE=enfermeras[22][3];
-                    TIPODELLAMADO=enfermeras[22][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H5.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-5", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[22][0];
+                        FECHA = enfermeras[22][1];
+                        HORA = enfermeras[22][2];
+                        PACIENTE = enfermeras[22][3];
+                        TIPODELLAMADO = enfermeras[22][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
-        SEC4H6.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SEC4S.equals("SIN ENFERMERA") == false) {
-                    //play();
-                    Toast.makeText(getApplicationContext(), "4-6", Toast.LENGTH_SHORT).show();
-                    HABITACION= enfermeras[23][0];
-                    FECHA=enfermeras[23][1];
-                    HORA=enfermeras[23][2];
-                    PACIENTE=enfermeras[23][3];
-                    TIPODELLAMADO=enfermeras[23][4];
-                    NOMBREENFERMERA=SEC4.getText().toString();
-                    insetenfermera();
+            });
+            SEC4H6.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (SEC4S.equals("SIN ENFERMERA") == false) {
+                        //play();
+                        Toast.makeText(getApplicationContext(), "4-6", Toast.LENGTH_SHORT).show();
+                        HABITACION = enfermeras[23][0];
+                        FECHA = enfermeras[23][1];
+                        HORA = enfermeras[23][2];
+                        PACIENTE = enfermeras[23][3];
+                        TIPODELLAMADO = enfermeras[23][4];
+                        NOMBREENFERMERA = SEC4.getText().toString();
+                        insetenfermera();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     public void consulEvento() {
         a=1;
@@ -621,27 +626,27 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     if (SECCION.equals("1") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
                             if (HABITACION.equals("101") == true) {
-                                SEC1H1.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H1.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("102") == true) {
-                                SEC1H2.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H2.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("103") == true) {
-                                SEC1H3.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H3.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("104") == true) {
-                                SEC1H4.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H4.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("105") == true) {
-                                SEC1H5.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H5.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("106") == true) {
-                                SEC1H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC1H6.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC1H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
@@ -742,27 +747,27 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     if (SECCION.equals("2") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
                             if (HABITACION.equals("107") == true) {
-                                SEC2H1.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H1.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("108") == true) {
-                                SEC2H2.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H2.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("109") == true) {
-                                SEC2H3.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H3.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("110") == true) {
-                                SEC2H4.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H4.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("111") == true) {
-                                SEC2H5.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H5.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("112") == true) {
-                                SEC2H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC2H6.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC2H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
@@ -863,27 +868,27 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     if (SECCION.equals("3") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
                             if (HABITACION.equals("113") == true) {
-                                SEC3H1.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H1.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("114") == true) {
-                                SEC3H2.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H2.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("115") == true) {
-                                SEC3H3.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H3.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("116") == true) {
-                                SEC3H4.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H4.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("117") == true) {
-                                SEC3H5.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H5.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("118") == true) {
-                                SEC3H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC3H6.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC3H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }
@@ -983,27 +988,27 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     if (SECCION.equals("4") == true) {
                         if (TR.equals("SIN RESPUESTA") == false) {
                             if (HABITACION.equals("119") == true) {
-                                SEC4H1.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H1.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H1.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("120") == true) {
-                                SEC4H2.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H2.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H2.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("121") == true) {
-                                SEC4H3.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H3.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H3.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("122") == true) {
-                                SEC4H4.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H4.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H4.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("123") == true) {
-                                SEC4H5.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H5.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H5.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                             if (HABITACION.equals("124") == true) {
-                                SEC4H6.setBackgroundColor(Color.parseColor("#2E7D32"));
+                                SEC4H6.setBackgroundColor(Color.parseColor("#8BC34A"));
                                 SEC4H6.setText("HABITACION:N/A\nPACIENTE:N/A\nFECHA:N/A\nHORA:N/A\nMEDICO:N/A\n");
                             }
                         }

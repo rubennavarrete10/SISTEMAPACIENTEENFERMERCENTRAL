@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lienarmain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1D319F"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="65px"
+        android:text="CENTRAL DE ENFERMERAS"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="15px"
+        android:background="#041747"
+        android:textColor="@android:color/white"
+        android:textSize="55px" />
+
+    <LinearLayout
+        android:id="@+id/LIN1"
+        android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:layout_marginRight="60px"
+        android:layout_marginLeft="60px"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="250px"
+            android:layout_height="wrap_content"
+            android:text="SECCION 1"
+            android:textColor="@android:color/white"
+            android:textSize="35px"/>
+
+        <TextView
+            android:id="@+id/SEC1SINENFE"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="SIN ENFERMERA"
+            android:layout_marginLeft="500px"
+            android:textColor="@android:color/white"
+            android:textSize="35px"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LINHB1"
+        android:layout_width="1920px"
+        android:layout_height="345px"
+
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5px">
+
+        <GridLayout
+            android:layout_width="1800px"
+            android:layout_marginLeft="60px"
+            android:layout_height="345px">
+
+            <LinearLayout
+                android:layout_width="600px"
+                android:layout_height="345px"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginRight="10px"
+                android:background="@android:color/black"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sec1h101"
+                    android:layout_width="600px"
+                    android:layout_height="45px"
+                    android:text="HABITACION 101"
+                    android:background="@android:color/holo_green_light"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="40px" />
+
+                <TextView
+                    android:id="@+id/sec1h1"
+                    android:layout_width="600px"
+                    android:layout_height="200px"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:textSize="9dp" />
+
+                <LinearLayout
+                    android:layout_width="600px"
+                    android:layout_height="100px"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ibsec1h1"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
+
+                    <ImageButton
+                        android:id="@+id/ib1sec1h1"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_media_play" />
+
+                    <ImageButton
+                        android:id="@+id/ib2sec1h1"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_dialog_info" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="600px"
+                android:layout_height="345px"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_marginRight="10px"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/sec1h102"
+                android:layout_width="600px"
+                android:layout_height="45px"
+                android:text="HABITACION 102"
+                android:background="@android:color/holo_green_light"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:textSize="40px" />
+
+            <TextView
+                android:id="@+id/sec1h2"
+                android:layout_width="600px"
+                android:layout_height="200px"
+                android:background="@android:color/darker_gray"
+                android:textColor="@android:color/black"
+                android:textSize="9dp" />
+
+            <LinearLayout
+                android:layout_width="600px"
+                android:layout_height="100px"
+                android:background="@android:color/black"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/ibsec1h2"
+                    android:layout_width="200px"
+                    android:layout_height="100px"
+                    android:background="@null"
+                    app:srcCompat="@android:drawable/ic_menu_save" />
+
+                <ImageButton
+                    android:id="@+id/ib1sec1h2"
+                    android:layout_width="200px"
+                    android:layout_height="100px"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    app:srcCompat="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/ib2sec1h2"
+                    android:layout_width="200px"
+                    android:layout_height="100px"
+                    android:background="@null"
+                    app:srcCompat="@android:drawable/ic_dialog_info" />
+            </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="600px"
+                android:layout_height="345px"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:background="@android:color/black"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sec1h103"
+                    android:layout_width="600px"
+                    android:layout_height="45px"
+                    android:text="HABITACION 103"
+                    android:background="@android:color/holo_green_light"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="40px" />
+
+                <TextView
+                    android:id="@+id/sec1h3"
+                    android:layout_width="600px"
+                    android:layout_height="200px"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:textSize="9dp" />
+
+                <LinearLayout
+                    android:layout_width="600px"
+                    android:layout_height="100px"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ibsec1h3"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
+
+                    <ImageButton
+                        android:id="@+id/ib1sec1h3"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_media_play" />
+
+                    <ImageButton
+                        android:id="@+id/ib2sec1h3"
+                        android:layout_width="200px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_dialog_info" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </GridLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="1920px"
+        android:layout_height="345px"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5px">
+
+        <GridLayout
+            android:layout_width="1800px"
+            android:layout_marginLeft="60px"
+            android:layout_marginTop="10px"
+            android:layout_height="345px">
+
+            <LinearLayout
+                android:layout_width="900px"
+                android:layout_height="345px"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginRight="10px"
+                android:background="@android:color/black"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sec1h104"
+                    android:layout_width="900px"
+                    android:layout_height="45px"
+                    android:text="HABITACION 104"
+                    android:background="@android:color/holo_green_light"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="40px" />
+
+                <TextView
+                    android:id="@+id/sec1h4"
+                    android:layout_width="900px"
+                    android:layout_height="200px"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:textSize="9dp" />
+
+                <LinearLayout
+                    android:layout_width="900px"
+                    android:layout_height="100px"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ibsec1h4"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
+
+                    <ImageButton
+                        android:id="@+id/ib1sec1h4"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_media_play" />
+
+                    <ImageButton
+                        android:id="@+id/ib2sec1h4"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_dialog_info" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="900px"
+                android:layout_height="345px"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sec1h105"
+                    android:layout_width="900px"
+                    android:layout_height="45px"
+                    android:text="HABITACION 105"
+                    android:background="@android:color/holo_green_light"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="40px" />
+
+                <TextView
+                    android:id="@+id/sec1h5"
+                    android:layout_width="900px"
+                    android:layout_height="200px"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:textSize="9dp" />
+
+                <LinearLayout
+                    android:layout_width="900px"
+                    android:layout_height="100px"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ibsec1h5"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
+
+                    <ImageButton
+                        android:id="@+id/ib1sec1h5"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_media_play" />
+
+                    <ImageButton
+                        android:id="@+id/ib2sec1h5"
+                        android:layout_width="300px"
+                        android:layout_height="100px"
+                        android:background="@null"
+                        app:srcCompat="@android:drawable/ic_dialog_info" />
+                </LinearLayout>
+            </LinearLayout>
+        </GridLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LIN3"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/estacion"
+            android:layout_width="250px"
+            android:layout_height="110px"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="ESTACION 1"
+            android:textColor="@android:color/white"
+            android:textSize="40px" />
+
+        <ImageButton
+            android:id="@+id/ser"
+            android:layout_width="250px"
+            android:layout_height="110px"
+            android:layout_gravity="center"
+            android:layout_marginRight="444px"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:text="SERVICIO"
+            android:textSize="35px"
+            app:srcCompat="@drawable/configuracion" />
+
+        <ImageButton
+            android:id="@+id/ini"
+            android:layout_width="400px"
+            android:layout_height="110px"
+            android:layout_gravity="center"
+            android:layout_marginRight="100px"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:text="INICIAR SESION"
+            android:textSize="35px"
+            app:srcCompat="@drawable/login" />
+
+        <ImageButton
+            android:id="@+id/out"
+            android:layout_width="400px"
+            android:layout_height="110px"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:text="CERRAR SESION"
+            android:textSize="35px"
+            app:srcCompat="@drawable/logout" />
+
+    </LinearLayout>
+</LinearLayout>

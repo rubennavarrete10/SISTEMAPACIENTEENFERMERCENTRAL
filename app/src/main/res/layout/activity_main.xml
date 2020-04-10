@@ -12,13 +12,13 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="90px"
+        android:layout_height="65px"
         android:text="CENTRAL DE ENFERMERAS"
         android:gravity="center_horizontal"
         android:layout_marginBottom="15px"
         android:background="#041747"
         android:textColor="@android:color/white"
-        android:textSize="65px" />
+        android:textSize="55px" />
 
     <LinearLayout
         android:id="@+id/LIN1"
@@ -435,7 +435,7 @@
         <TextView
             android:id="@+id/estacion"
             android:layout_width="250px"
-            android:layout_height="120px"
+            android:layout_height="110px"
             android:text="ESTACION 1"
             android:textSize="40px"
             android:gravity="center"
@@ -445,7 +445,7 @@
         <ImageButton
             android:id="@+id/ser"
             android:layout_width="250px"
-            android:layout_height="120px"
+            android:layout_height="110px"
             android:background="@null"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/configuracion"
@@ -457,7 +457,7 @@
         <ImageButton
             android:id="@+id/ini"
             android:layout_width="400px"
-            android:layout_height="120px"
+            android:layout_height="110px"
             android:layout_gravity="center"
             android:textSize="35px"
             android:background="@null"
@@ -469,7 +469,7 @@
         <ImageButton
             android:id="@+id/out"
             android:layout_width="400px"
-            android:layout_height="120px"
+            android:layout_height="110px"
             android:layout_gravity="center"
             android:textSize="35px"
             android:background="@null"
