@@ -100,8 +100,13 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.unoacuatro);
+        setContentView(R.layout.inicializador);
 
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                layout=14;
+                setContentView(R.layout.unoacuatro);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 1000);
@@ -111,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
         final ImageButton login = (ImageButton) findViewById(R.id.ini);
         final ImageButton logOut =(ImageButton) findViewById(R.id.out);
 
-        layout=14;
         referenciasobjetos();
 ///////////////////////////////////////////////////////////////////////////logica principal//////////////////////////////////////////////////////////
 
@@ -144,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
                     consulEvento();
                 }
             };tiempo.schedule(ciclo,500,1000);
+            }
+        }, 2000);
      }
     ///////////////////////////////////////////////////////////////////////////fin logica principal//////////////////////////////////////////////////////////
     private void referenciasobjetos() {

@@ -2,14 +2,13 @@ package SPEC.PKG;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,17 +19,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class modificarActivity extends AppCompatActivity {
 
-    String NOMBRE,PRIMERA,SEGUNDOA,TURNOS, url1;
-    int TURNO=0;
-    Button REGRESAR, AGREGAR,BORRAR;
-    RadioButton MANANA,TARDE,NOCHE;
-    EditText INSERTNOMBRE,INSERTPRIMERA,INSERTSEGUNDOA;
+    int LAYOUTCONFIG=0;
+    ImageButton REGRESAR, ESTABLECER;
+    RadioButton s1,s2,h4,h5,h6,si,no;
+    EditText hs,noc,em;
+    String alarm="",LY="",hss,nocs,ems;
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    public static final String TEXT2 = "text2";
+    public static final String TEXT3 = "text3";
+    public static final String TEXT4 = "text4";
+    public static final String TEXT5 = "text5";
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -39,148 +40,93 @@ public class modificarActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);////////////////marcaba error solo por dar gusto al usuario en la orientacion no problem
         setContentView(R.layout.activity_modificar);
 
-        REGRESAR = (Button) findViewById(R.id.REGRESAR);
-        AGREGAR = (Button) findViewById(R.id.AGREGAR);
-        BORRAR = (Button) findViewById(R.id.BORRAR);
-        MANANA =(RadioButton) findViewById(R.id.TURNOMANANA);
-        TARDE =(RadioButton) findViewById(R.id.TURNOTARDE);
-        NOCHE =(RadioButton) findViewById(R.id.TURNONOCHE);
-        INSERTNOMBRE = (EditText) findViewById(R.id.NOMBRE);
-        INSERTPRIMERA = (EditText) findViewById(R.id.PRIMERA);
-        INSERTSEGUNDOA = (EditText) findViewById(R.id.SEGUNDOA);
+        REGRESAR = (ImageButton) findViewById(R.id.imageButton5);
+        ESTABLECER = (ImageButton) findViewById(R.id.imageButton4);
+
+        hs = (EditText) findViewById(R.id.host);
+        noc =(EditText)findViewById(R.id.nocentral);
+        em = (EditText) findViewById(R.id.email);
+
+        s1 = (RadioButton) findViewById(R.id.seccionc1);
+        s2 = (RadioButton) findViewById(R.id.secccionc2);
+        h4 = (RadioButton)findViewById(R.id.h4);
+        h5 = (RadioButton)findViewById(R.id.h5);
+        h6 = (RadioButton)findViewById(R.id.h6);
+        si = (RadioButton)findViewById(R.id.si);
+        no = (RadioButton)findViewById(R.id.no);
+
+
+
 
         REGRESAR.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent2 = new Intent(v.getContext(), MainActivity.class);
-                Bundle extras = getIntent().getExtras();
+                Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
+                intent2.putExtra("hs", hss);
+                intent2.putExtra("noc", nocs);
+                intent2.putExtra("em", ems);
+                intent2.putExtra("alarmasonido", alarm);
+                intent2.putExtra("ly", LY);
                 startActivityForResult(intent2, 0);
             }
         });
-        BORRAR.setOnClickListener(new View.OnClickListener() {
+        ESTABLECER.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (MANANA.isChecked() == true){
-                    TURNO =1;
-                }
-                if (TARDE.isChecked() == true){
-                    TURNO=2;
-                }
-                if (NOCHE.isChecked() == true){
-                    TURNO=3;
-                }
-                NOMBRE = INSERTNOMBRE.getText().toString();
-                PRIMERA = INSERTPRIMERA.getText().toString();
-                SEGUNDOA = INSERTSEGUNDOA.getText().toString();
-                Toast.makeText(getApplicationContext(), NOMBRE +" "+ PRIMERA+" "+ SEGUNDOA, Toast.LENGTH_SHORT).show();
-                INSERTNOMBRE.setText("");
-                INSERTPRIMERA.setText("");
-                INSERTSEGUNDOA.setText("");
-                alert2();
-            }
-        });
 
-        AGREGAR.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (MANANA.isChecked() == true){
-                    TURNO =1;
+                if (s1.isChecked() == true){
+                    if (h4.isChecked() == true){
+                        LAYOUTCONFIG=14;
+                    }
+                    if (h5.isChecked() == true){
+                        LAYOUTCONFIG=15;
+                    }
+                    if (h6.isChecked() == true){
+                        LAYOUTCONFIG=16;
+                    }
                 }
-                if (TARDE.isChecked() == true){
-                    TURNO=2;
+                if (s2.isChecked() == true){
+                    if (h4.isChecked() == true){
+                        LAYOUTCONFIG=24;
+                    }
+                    if (h5.isChecked() == true){
+                        LAYOUTCONFIG=25;
+                    }
+                    if (h6.isChecked() == true){
+                        LAYOUTCONFIG=26;
+                    }
                 }
-                if (NOCHE.isChecked() == true){
-                    TURNO=3;
+                if (si.isChecked() == true){
+                    alarm="si";
                 }
-                NOMBRE = INSERTNOMBRE.getText().toString();
-                PRIMERA = INSERTPRIMERA.getText().toString();
-                SEGUNDOA = INSERTSEGUNDOA.getText().toString();
-                TURNOS=String.valueOf(TURNO);
-                INSERTNOMBRE.setText("");
-                INSERTPRIMERA.setText("");
-                INSERTSEGUNDOA.setText("");
-                alert();
+                if (no.isChecked() == true){
+                    alarm="no";
+                }
+                LY= String.valueOf(LAYOUTCONFIG);
+                hss=hs.getText().toString();
+                nocs=noc.getText().toString();
+                ems=em.getText().toString();
+                saveData();
+                Toast.makeText(getApplicationContext(), ""+hss+"\n"+nocs+"\n"+ems+"\n"+alarm+"\n"+LY, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-    public void agregar() {
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-        if (TURNO == 1) {
-            url1 = "http://192.168.0.15/BDSEP/INSERTENFERMERAS.PHP?NOMBRE=" + NOMBRE + "&PRIMERA=" + PRIMERA + "&SEGUNDOA=" + SEGUNDOA;
-        }
-        if (TURNO == 2) {
-             url1 = "http://192.168.0.15/BDSEP/INSERTENFERMERASTARDE.PHP?NOMBRE=" + NOMBRE + "&PRIMERA=" + PRIMERA + "&SEGUNDOA=" + SEGUNDOA;
-        }
-        if (TURNO == 3) {
-             url1 = "http://192.168.0.15/BDSEP/INSERTENFERMERASNOCHE.PHP?NOMBRE=" + NOMBRE + "&PRIMERA=" + PRIMERA + "&SEGUNDOA=" + SEGUNDOA;
-        }
-        url1 = url1.replace(" ", "%20");
 
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "ENFERMERA AGREGADA", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "NO SE AGREGO ENFERMERA, ERROR WEBSERVICE"+ url1, Toast.LENGTH_LONG).show();
-            }
-        }) {
-        };
-        MyRequestQueue.add(MyStringRequest);
-    }
-    public void borrar() {
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-        String url1 = "http://192.168.0.15/BDSEP/ELIMINARENFERMERAS.php?NOMBRE=" + NOMBRE + "&PRIMERA=" + PRIMERA + "&SEGUNDOA=" + SEGUNDOA+"&TURNO="+TURNO;
-        url1 = url1.replace(" ", "%20");
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                Toast.makeText(getApplicationContext(), "ENFERMERA BORRADA", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "NO SE BORRO ENFERMERA-ERROR EN WEBSERVICE", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-        };
-        MyRequestQueue.add(MyStringRequest);
-    }
     public void alert() {
         AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
-        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
-        alertmodificarenfermeras.setMessage("DESEA CONTINUAR CON LA MODIFICACION?");
-        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                agregar();
-            }
-        });
-        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
-            }
-        });
+        alertmodificarenfermeras.setTitle("CONFIGURACION INCOMPLETA");
+        alertmodificarenfermeras.setMessage("RELLENE LOS DATOS FALTANTES");
         alertmodificarenfermeras.show();
     }
-    public void alert2(){
-        AlertDialog.Builder alertmodificarenfermeras = new AlertDialog.Builder(this);
-        alertmodificarenfermeras.setTitle("REGISTRO DE ENFERMERAS");
-        alertmodificarenfermeras.setMessage("DESEA CONTINUAR CON LA MODIFICACION?");
-        alertmodificarenfermeras.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                borrar();
-            }
-        });
-        alertmodificarenfermeras.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "PROCEDIMIENTO CANCELADO", Toast.LENGTH_LONG).show();
-            }
-        });
-        alertmodificarenfermeras.show();
+    public void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TEXT, hs.getText().toString());
+        editor.putString(TEXT2, noc.getText().toString());
+        editor.putString(TEXT3, em.getText().toString());
+        editor.putString(TEXT4, alarm);
+        editor.putString(TEXT5, LY);
+        editor.apply();
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
+
 }
